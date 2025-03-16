@@ -1,0 +1,74 @@
+$loader-size: 70px; // Make bigger
+$loader-color: #ff79da; // Pink color
+$animation-duration: 0.8s; // Faster spin
+
+// Loader Container
+.refresh-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: loader $animation-duration forwards;
+
+  // Spinner Element
+  .spinner {
+    width: $loader-size;
+    height: $loader-size;
+    position: relative;
+    animation: spin $animation-duration linear infinite;
+
+    // Spinner Elements
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    // Outer Circle
+    &::before {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        0deg,
+        rgba($loader-color, 0.1) 33%,
+        $loader-color 100%
+      );
+    }
+
+    // Inner Circle
+    &::after {
+      width: 85%;
+      height: 85%;
+      background: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+// Spin Animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader {
+  0% {
+    display: flex;
+  }
+  100% {
+    display: none;
+  }
+}
