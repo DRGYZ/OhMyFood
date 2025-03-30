@@ -17,7 +17,7 @@
 body {
   font-family: "Roboto", sans-serif;
   width: 100%;
-  max-width: 375px;
+  max-width: 1440px;
   margin: 0 auto;
   background: var(--light);
 }
@@ -224,5 +224,93 @@ body {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Desktop CSS (min-width: 1024px) */
+@media (min-width: 1024px) {
+  /* Header */
+  .header {
+    padding: 2rem 3rem;
+  }
+
+  .header-logo h2 {
+    font-size: 2rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 4rem 3rem;
+  }
+
+  .hero__title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-button {
+    width: auto;
+    padding: 1rem 3rem;
+  }
+
+  /* Functioning Steps */
+  .functioning {
+    padding: 4rem 3rem;
+  }
+
+  .functioning h2 {
+    font-size: 1.8rem;
+  }
+
+  .steps {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .step {
+    flex: 1;
+    padding: 1.5rem 2rem;
+  }
+
+  /* Restaurants Section */
+  .restaurants {
+    padding: 4rem 3rem;
+  }
+
+  .restaurants__title {
+    font-size: 1.8rem;
+  }
+
+  .restaurants__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6rem;
+  }
+
+  .restaurant-card__image {
+    height: 15rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 3rem;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    gap: 5rem;
+  }
+
+  .footer-logo {
+    margin-bottom: 0;
+  }
+
+  .footer-nav {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  /* Global Container Padding */
+  body > *:not(.header):not(.footer) {
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
