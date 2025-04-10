@@ -19,7 +19,6 @@ body {
   font-family: "Roboto", sans-serif;
   background: var(--light);
   margin: 0 auto;
-  max-width: 1440px;
 }
 
 .header {
@@ -226,21 +225,6 @@ body {
   display: grid;
   place-items: center;
 }
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-.refresh-container {
-  animation: fadeOut 300ms 1500ms forwards;
-}
-
 /* Heart Like Animation */
 @keyframes heartPop {
   0% {
@@ -263,88 +247,7 @@ body {
   animation: heartPop 400ms ease;
 }
 
-/* Menu Items Staggered Animation */
-@keyframes itemAppear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.menu-item {
-  animation: itemAppear 600ms ease both;
-}
-
-/* Stagger the animations */
-.menu-items:nth-child(1) .menu-item {
-  animation-delay: 200ms;
-}
-.menu-items:nth-child(2) .menu-item {
-  animation-delay: 400ms;
-}
-.menu-items:nth-child(3) .menu-item {
-  animation-delay: 600ms;
-}
-
-/* Checkmark Slide Animation */
-@keyframes checkSlide {
-  from {
-    width: 0;
-  }
-  to {
-    width: 60px;
-  }
-}
-
-.menu-item:hover .menu-item__check {
-  animation: checkSlide 300ms ease both;
-}
-
-/* Button Hover Effect */
-.order-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  transition: all 300ms ease;
-}
-
-/* Category Title Underline Animation */
-.menu-category__title::after {
-  transition: width 400ms ease;
-}
-
-.menu-category__title:hover::after {
-  width: 100px;
-}
-
-/* Image Zoom Effect */
-.menu__cover {
-  transition: transform 800ms ease;
-}
-
-.menu__cover-container:hover .menu__cover {
-  transform: scale(1.05);
-}
-
-.menu-item__check {
-  transition: all 300ms ease;
-}
-
-.order-button {
-  transition: all 300ms ease;
-}
-
-.menu__cover-container {
-  overflow: hidden;
-}
 @media (min-width: 1024px) {
-  body {
-    padding: 0 2rem;
-  }
-
   /* Header */
   .header {
     padding: 2rem 0;
@@ -365,10 +268,8 @@ body {
   /* Menu Cover */
   .menu__cover-container {
     height: 450px;
-    border-radius: 2rem;
     overflow: hidden;
     margin: 0 auto;
-    max-width: 1440px;
   }
 
   .menu__cover-title {
@@ -463,11 +364,5 @@ body {
   .footer-nav {
     flex-direction: row;
     gap: 2rem;
-  }
-
-  /* Global Container Padding */
-  body > *:not(.header):not(.footer) {
-    padding-left: 3rem;
-    padding-right: 3rem;
   }
 }
