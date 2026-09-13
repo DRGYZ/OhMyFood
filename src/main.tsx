@@ -1,0 +1,13 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./styles/fonts.css";
+import "./styles/tokens.css";
+import "./styles/global.css";
+
+const root = document.getElementById("root");
+
+if (!root) {
+  throw new Error("The application root is missing.");
+}
+
+createRoot(root).render(<StrictMode />);

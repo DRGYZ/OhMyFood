@@ -1,0 +1,18 @@
+/* French-language V2 foundation: load the Latin variable subset only. */
+@font-face {
+  font-family: "EB Garamond Variable";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2")
+    format("woff2-variations");
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans Variable";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2")
+    format("woff2-variations");
+}
