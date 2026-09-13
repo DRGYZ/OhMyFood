@@ -3,7 +3,7 @@ import {
   cuisineOptions,
   dietaryOptions,
   neighborhoodOptions,
-} from "../restaurants";
+} from "../../data/restaurants";
 import type { DiscoverFilters } from "../filters";
 
 interface FilterBarProps {

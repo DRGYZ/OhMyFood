@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
-import { SiteHeader } from "../discover/components/SiteHeader";
+import { SiteHeader } from "../layout/SiteHeader";
+import { SiteFooter } from "../layout/SiteFooter";
 import {
   cuisineLabel,
   dietaryLabel,
+  restaurantById,
   restaurantBySlug,
   type Restaurant,
-} from "../discover/restaurants";
+} from "../data/restaurants";
 import { useSelection } from "../selection/SelectionContext";
-import { summarizeSelection } from "../selection/selection";
+import { MAX_QUANTITY, selectionStatus, summarizeSelection } from "../selection/selection";
 import { SimplePage } from "../SimplePage";
 import type { MenuItem, MenuSection as MenuSectionData } from "./types";
 
@@ -26,6 +28,21 @@ interface MenuItemCardProps {
 }
 
 function MenuItemCard({ item, quantity, onAdd, onRemove }: MenuItemCardProps) {
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+  const restoreAddFocus = useRef(false);
+
+  useLayoutEffect(() => {
+    if (quantity === 0 && restoreAddFocus.current) {
+      addButtonRef.current?.focus();
+      restoreAddFocus.current = false;
+    }
+  }, [quantity]);
+
+  function removeWithFocus() {
+    if (quantity === 1) restoreAddFocus.current = true;
+    onRemove();
+  }
+
   return (
     <article className={"menu-item" + (quantity ? " menu-item--selected" : "")}>
       <div className="menu-item__copy">
@@ -38,6 +55,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }: MenuItemCardProps) {
           <button
             type="button"
             className="menu-item__add"
+            ref={addButtonRef}
             onClick={onAdd}
             aria-label={"Ajouter " + item.name + " à la sélection"}
           >
@@ -48,7 +66,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }: MenuItemCardProps) {
           <div className="quantity-control" role="group" aria-label={"Quantité de " + item.name}>
             <button
               type="button"
-              onClick={onRemove}
+              onClick={removeWithFocus}
               aria-label={"Diminuer la quantité de " + item.name}
             >
               <span aria-hidden="true">−</span>
@@ -59,6 +77,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }: MenuItemCardProps) {
             <button
               type="button"
               onClick={onAdd}
+              disabled={quantity >= MAX_QUANTITY}
               aria-label={"Augmenter la quantité de " + item.name}
             >
               <span aria-hidden="true">+</span>
@@ -137,7 +156,7 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
           <strong>{euro.format(subtotal)}</strong>
         </div>
         {itemCount > 0 ? (
-          <Link className="selection-panel__continue" to="/reservation">
+          <Link className="selection-panel__continue" to={"/restaurants/" + restaurant.slug + "/reservation"}>
             Préparer ma réservation <span aria-hidden="true">↗</span>
           </Link>
         ) : (
@@ -152,9 +171,6 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
             Effacer la sélection
           </button>
         )}
-        <p className="selection-panel__footnote">
-          Prix indicatifs issus de la carte V1 · aucune commande n'est envoyée.
-        </p>
       </aside>
       {itemCount > 0 && (
         <div className="selection-mobile">
@@ -162,7 +178,7 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
             <strong>{itemCount} {itemCount === 1 ? "plat" : "plats"}</strong>
             <span>{euro.format(subtotal)}</span>
           </div>
-          <Link to="/reservation" aria-label={"Voir ma sélection : " + itemCount + " " + (itemCount === 1 ? "plat" : "plats") + ", " + euro.format(subtotal)}>
+          <Link to={"/restaurants/" + restaurant.slug + "/reservation"} aria-label={"Voir ma sélection : " + itemCount + " " + (itemCount === 1 ? "plat" : "plats") + ", " + euro.format(subtotal)}>
             Continuer <span aria-hidden="true">↗</span>
           </Link>
         </div>
@@ -176,6 +192,19 @@ export function RestaurantPage() {
   const restaurant = slug ? restaurantBySlug(slug) : undefined;
   const { state, dispatch } = useSelection();
   const [announcement, setAnnouncement] = useState("");
+  const [pendingItem, setPendingItem] = useState<MenuItem | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (pendingItem && dialog && !dialog.open) dialog.showModal();
+    if (!pendingItem && dialog?.open) dialog.close();
+  }, [pendingItem]);
+
+  useEffect(() => {
+    setAnnouncement("");
+    setPendingItem(null);
+  }, [slug]);
 
   if (!restaurant) {
     return (
@@ -187,16 +216,31 @@ export function RestaurantPage() {
     );
   }
 
-  const quantities = state.restaurantId === restaurant.id ? state.quantities : {};
+  const restaurantId = restaurant.id;
+  const quantities = state.restaurantId === restaurantId ? state.quantities : {};
 
   function changeItem(item: MenuItem, action: "add" | "remove") {
-    dispatch({ type: action, restaurantId: restaurant!.id, itemId: item.id });
-    setAnnouncement(
-      action === "add"
-        ? item.name + " ajouté à votre sélection."
-        : item.name + " retiré de votre sélection.",
-    );
+    if (action === "add" && state.restaurantId && state.restaurantId !== restaurantId) {
+      setPendingItem(item);
+      return;
+    }
+
+    const current = quantities[item.id] ?? 0;
+    dispatch({ type: action, restaurantId, itemId: item.id });
+    setAnnouncement(selectionStatus(item.name, action === "add" ? current + 1 : current - 1));
   }
+
+  function confirmReplacement() {
+    if (!pendingItem) return;
+    dispatch({ type: "replace", restaurantId, itemId: pendingItem.id });
+    setAnnouncement(selectionStatus(pendingItem.name, 1));
+    setPendingItem(null);
+  }
+
+  const previousRestaurant =
+    state.restaurantId && state.restaurantId !== restaurantId
+      ? restaurantById(state.restaurantId)
+      : undefined;
 
   return (
     <>
@@ -242,7 +286,7 @@ export function RestaurantPage() {
               <div className="restaurant-menu__intro">
                 <p className="eyebrow">Composez votre repas</p>
                 <h2>La carte</h2>
-                <p>Des plats issus de la carte originale, à sélectionner à votre rythme.</p>
+                <p>Choisissez vos plats pour poursuivre votre réservation.</p>
               </div>
               {restaurant.menu.map((section) => (
                 <MenuSection
@@ -261,18 +305,41 @@ export function RestaurantPage() {
               }}
             />
           </div>
+          <dialog
+            className="replace-dialog"
+            ref={dialogRef}
+            aria-labelledby="replace-dialog-title"
+            onCancel={(event) => {
+              event.preventDefault();
+              setPendingItem(null);
+            }}
+          >
+            <p className="eyebrow">Une seule table à la fois</p>
+            <h2 id="replace-dialog-title">Commencer une nouvelle sélection ?</h2>
+            <p>
+              Vous avez déjà une sélection chez {previousRestaurant?.name ?? "une autre table"}.
+              Commencer chez {restaurant.name} remplacera votre menu précédent.
+            </p>
+            <div className="replace-dialog__actions">
+              <button type="button" onClick={() => setPendingItem(null)}>
+                Annuler
+              </button>
+              <button type="button" onClick={confirmReplacement}>
+                Remplacer la sélection
+              </button>
+            </div>
+          </dialog>
           <p className="visually-hidden" role="status" aria-live="polite">
             {announcement}
           </p>
         </div>
       </main>
-      <footer className="site-footer">
-        <div className="site-footer__inner page-shell">
-          <span className="site-footer__brand">OhMyFood</span>
-          <p>Quatre tables parisiennes à explorer.</p>
-          <p>Prototype de portfolio · informations illustratives</p>
-        </div>
-      </footer>
+      <SiteFooter
+        selectionClearance={
+          state.restaurantId === restaurantId &&
+          Object.keys(state.quantities).length > 0
+        }
+      />
     </>
   );
 }

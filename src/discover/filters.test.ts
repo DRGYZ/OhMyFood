@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { filterRestaurants, parseFilters, filtersToSearchParams } from "./filters";
-import { restaurants } from "./restaurants";
+import { restaurants } from "../data/restaurants";
 
 const empty = { q: "", cuisine: "", neighborhood: "", dietary: "" };
 

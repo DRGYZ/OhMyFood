@@ -2,14 +2,15 @@ import { useSearchParams } from "react-router";
 import { FeaturedRestaurant } from "./components/FeaturedRestaurant";
 import { FilterBar } from "./components/FilterBar";
 import { RestaurantCard } from "./components/RestaurantCard";
-import { SiteHeader } from "./components/SiteHeader";
+import { SiteHeader } from "../layout/SiteHeader";
+import { SiteFooter } from "../layout/SiteFooter";
 import {
   filterRestaurants,
   parseFilters,
   filtersToSearchParams,
   type DiscoverFilters,
 } from "./filters";
-import { restaurants } from "./restaurants";
+import { restaurants } from "../data/restaurants";
 import "./discover.css";
 
 const emptyFilters: DiscoverFilters = {
@@ -84,7 +85,9 @@ export function DiscoverPage() {
                 </h2>
               </div>
               <p className="results-count" aria-live="polite" aria-atomic="true">
-                {listing.length} {listing.length === 1 ? "adresse" : "adresses"}
+                {featured
+                  ? listing.length + " autres tables"
+                  : listing.length + " " + (listing.length === 1 ? "adresse" : "adresses")}
               </p>
             </div>
 
@@ -137,13 +140,7 @@ export function DiscoverPage() {
           </section>
         </div>
       </main>
-      <footer className="site-footer">
-        <div className="site-footer__inner page-shell">
-          <span className="site-footer__brand">OhMyFood</span>
-          <p>Quatre tables parisiennes à explorer.</p>
-          <p>Prototype de portfolio · informations illustratives</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

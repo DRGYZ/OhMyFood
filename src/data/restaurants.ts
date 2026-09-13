@@ -142,3 +142,6 @@ export const dietaryLabel = (value: DietaryOption) =>
 
 export const restaurantBySlug = (slug: string) =>
   restaurants.find((restaurant) => restaurant.slug === slug);
+
+export const restaurantById = (id: string): Restaurant | undefined =>
+  restaurants.find((restaurant) => restaurant.id === id);

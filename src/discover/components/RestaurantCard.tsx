@@ -3,7 +3,7 @@ import {
   cuisineLabel,
   dietaryLabel,
   type Restaurant,
-} from "../restaurants";
+} from "../../data/restaurants";
 
 interface RestaurantCardProps {
   restaurant: Restaurant;

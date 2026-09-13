@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { cuisineLabel, type Restaurant } from "../restaurants";
+import { cuisineLabel, type Restaurant } from "../../data/restaurants";
 
 interface FeaturedRestaurantProps {
   restaurant: Restaurant;

@@ -1,5 +1,6 @@
 import { Link } from "react-router";
-import { SiteHeader } from "./discover/components/SiteHeader";
+import { SiteHeader } from "./layout/SiteHeader";
+import { SiteFooter } from "./layout/SiteFooter";
 
 interface SimplePageProps {
   eyebrow: string;
@@ -19,6 +20,7 @@ export function SimplePage({ eyebrow, title, message }: SimplePageProps) {
           Découvrir les tables <span aria-hidden="true">↗</span>
         </Link>
       </main>
+      <SiteFooter />
     </>
   );
 }

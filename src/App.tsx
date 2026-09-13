@@ -1,10 +1,11 @@
 import { HashRouter, Route, Routes, useLocation } from "react-router";
 import { useEffect } from "react";
 import { DiscoverPage } from "./discover/DiscoverPage";
-import { SiteHeader } from "./discover/components/SiteHeader";
 import { RestaurantPage } from "./restaurant/RestaurantPage";
+import { ReservationPlaceholder } from "./restaurant/ReservationPlaceholder";
 import { SelectionProvider } from "./selection/SelectionContext";
 import { SimplePage } from "./SimplePage";
+import "./layout/layout.css";
 import "./discover/discover.css";
 import "./restaurant/restaurant.css";
 
@@ -31,14 +32,8 @@ export function App() {
           <Route path="/" element={<DiscoverPage />} />
           <Route path="/restaurants/:slug" element={<RestaurantPage />} />
           <Route
-            path="/reservation"
-            element={
-              <SimplePage
-                eyebrow="OhMyFood · prochaine étape"
-                title="Votre réservation"
-                message="Votre sélection reste disponible pendant cette visite. Le parcours de réservation sera créé dans la prochaine phase."
-              />
-            }
+            path="/restaurants/:slug/reservation"
+            element={<ReservationPlaceholder />}
           />
           <Route
             path="*"

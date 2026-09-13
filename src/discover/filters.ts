@@ -4,7 +4,7 @@ import {
   dietaryOptions,
   neighborhoodOptions,
   type Restaurant,
-} from "./restaurants";
+} from "../data/restaurants";
 
 export interface DiscoverFilters {
   q: string;

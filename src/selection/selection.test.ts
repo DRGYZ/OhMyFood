@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { menus } from "../restaurant/menus";
-import { initialSelection, selectionReducer, summarizeSelection } from "./selection";
+import { initialSelection, selectionReducer, selectionStatus, summarizeSelection } from "./selection";
 
 const first = menus.palette[0].items[0];
 const second = menus.palette[0].items[1];
@@ -38,11 +38,36 @@ describe("menu selection", () => {
     });
   });
 
-  it("keeps one restaurant selection at a time and clears it", () => {
-    let state = selectionReducer(initialSelection, { type: "add", restaurantId: "palette", itemId: first.id });
-    state = selectionReducer(state, { type: "add", restaurantId: "note", itemId: menus.note[0].items[0].id });
-    expect(summarizeSelection(state, "palette", menus.palette).itemCount).toBe(0);
-    expect(state.restaurantId).toBe("note");
-    expect(selectionReducer(state, { type: "clear" })).toEqual(initialSelection);
+  it("guards cross-restaurant additions until replacement is confirmed", () => {
+    const previous = selectionReducer(initialSelection, {
+      type: "add", restaurantId: "palette", itemId: first.id,
+    });
+    const newItemId = menus.note[0].items[0].id;
+    const refused = selectionReducer(previous, {
+      type: "add", restaurantId: "note", itemId: newItemId,
+    });
+    expect(refused).toBe(previous);
+    const replaced = selectionReducer(refused, {
+      type: "replace", restaurantId: "note", itemId: newItemId,
+    });
+    expect(replaced).toEqual({
+      restaurantId: "note", quantities: { [newItemId]: 1 },
+    });
+    expect(selectionReducer(replaced, { type: "clear" })).toEqual(initialSelection);
+  });
+
+  it("ignores unknown dishes and restaurants", () => {
+    expect(selectionReducer(initialSelection, {
+      type: "add", restaurantId: "palette", itemId: "missing",
+    })).toEqual(initialSelection);
+    expect(selectionReducer(initialSelection, {
+      type: "add", restaurantId: "missing", itemId: first.id,
+    })).toEqual(initialSelection);
+  });
+
+  it("announces the resulting quantity after repeated changes", () => {
+    expect(selectionStatus(first.name, 1)).toContain("1 portion");
+    expect(selectionStatus(first.name, 2)).toContain("2 portions");
+    expect(selectionStatus(first.name, 0)).toContain("retiré");
   });
 });

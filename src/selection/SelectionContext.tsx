@@ -1,10 +1,10 @@
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
 import {
-  initialSelection,
   selectionReducer,
   type SelectionAction,
   type SelectionState,
 } from "./selection";
+import { browserSelectionStorage, persistSelection, readStoredSelection } from "./storage";
 
 interface SelectionContextValue {
   state: SelectionState;
@@ -14,7 +14,15 @@ interface SelectionContextValue {
 const SelectionContext = createContext<SelectionContextValue | null>(null);
 
 export function SelectionProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(selectionReducer, initialSelection);
+  const [state, dispatch] = useReducer(
+    selectionReducer,
+    undefined,
+    () => readStoredSelection(browserSelectionStorage()),
+  );
+
+  useEffect(() => {
+    persistSelection(state, browserSelectionStorage());
+  }, [state]);
   return (
     <SelectionContext.Provider value={{ state, dispatch }}>
       {children}
