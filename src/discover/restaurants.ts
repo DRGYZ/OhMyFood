@@ -1,3 +1,5 @@
+import { menus } from "../restaurant/menus";
+import type { MenuSection } from "../restaurant/types";
 import paletteImage from "../assets/restaurants/palette.jpg";
 import noteImage from "../assets/restaurants/note.jpg";
 import francaiseImage from "../assets/restaurants/francaise.jpg";
@@ -42,11 +44,13 @@ export interface Restaurant {
   dietaryOptions: DietaryOption[];
   serviceNote: string;
   featured: boolean;
+  menu: MenuSection[];
 }
 
 export const restaurants: Restaurant[] = [
   {
     id: "palette",
+    menu: menus.palette,
     slug: "la-palette-du-gout",
     name: "La palette du goût",
     neighborhood: "11e",
@@ -67,6 +71,7 @@ export const restaurants: Restaurant[] = [
   },
   {
     id: "note",
+    menu: menus.note,
     slug: "la-note-enchantee",
     name: "La note enchantée",
     neighborhood: "11e",
@@ -87,6 +92,7 @@ export const restaurants: Restaurant[] = [
   },
   {
     id: "francaise",
+    menu: menus.francaise,
     slug: "a-la-francaise",
     name: "À la française",
     neighborhood: "10e",
@@ -107,6 +113,7 @@ export const restaurants: Restaurant[] = [
   },
   {
     id: "delice",
+    menu: menus.delice,
     slug: "le-delice-des-sens",
     name: "Le délice des sens",
     neighborhood: "20e",

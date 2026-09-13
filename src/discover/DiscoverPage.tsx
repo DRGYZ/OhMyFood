@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import { FeaturedRestaurant } from "./components/FeaturedRestaurant";
 import { FilterBar } from "./components/FilterBar";
 import { RestaurantCard } from "./components/RestaurantCard";
 import { SiteHeader } from "./components/SiteHeader";
 import {
   filterRestaurants,
-  readFiltersFromUrl,
-  writeFiltersToUrl,
+  parseFilters,
+  filtersToSearchParams,
   type DiscoverFilters,
 } from "./filters";
 import { restaurants } from "./restaurants";
@@ -20,21 +20,15 @@ const emptyFilters: DiscoverFilters = {
 };
 
 export function DiscoverPage() {
-  const [filters, setFilters] = useState(readFiltersFromUrl);
-
-  useEffect(() => {
-    const restoreFromHistory = () => setFilters(readFiltersFromUrl());
-    window.addEventListener("popstate", restoreFromHistory);
-    return () => window.removeEventListener("popstate", restoreFromHistory);
-  }, []);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filters = parseFilters(searchParams);
 
   function changeFilters(
     patch: Partial<DiscoverFilters>,
     mode: "push" | "replace",
   ) {
     const next = { ...filters, ...patch };
-    writeFiltersToUrl(next, mode);
-    setFilters(next);
+    setSearchParams(filtersToSearchParams(next), { replace: mode === "replace" });
   }
 
   const filtered = filterRestaurants(restaurants, filters);

@@ -22,9 +22,7 @@ const knownValues: Record<"cuisine" | "neighborhood" | "dietary", Set<string>> =
 const allowed = (key: keyof typeof knownValues, value: string) =>
   knownValues[key].has(value) ? value : "";
 
-export function readFiltersFromUrl(): DiscoverFilters {
-  const params = new URLSearchParams(window.location.search);
-
+export function parseFilters(params: URLSearchParams): DiscoverFilters {
   return {
     q: params.get("q") ?? "",
     cuisine: allowed("cuisine", params.get("cuisine") ?? ""),
@@ -33,24 +31,13 @@ export function readFiltersFromUrl(): DiscoverFilters {
   };
 }
 
-export function writeFiltersToUrl(
-  filters: DiscoverFilters,
-  mode: "push" | "replace",
-) {
-  const url = new URL(window.location.href);
-
+export function filtersToSearchParams(filters: DiscoverFilters): URLSearchParams {
+  const params = new URLSearchParams();
   for (const key of ["q", "cuisine", "neighborhood", "dietary"] as const) {
     const value = filters[key].trim();
-    if (value) {
-      url.searchParams.set(key, value);
-    } else {
-      url.searchParams.delete(key);
-    }
+    if (value) params.set(key, value);
   }
-
-  if (url.href !== window.location.href) {
-    window.history[mode === "push" ? "pushState" : "replaceState"](null, "", url);
-  }
+  return params;
 }
 
 const normalize = (value: string) =>

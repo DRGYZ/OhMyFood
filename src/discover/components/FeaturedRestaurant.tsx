@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { cuisineLabel, type Restaurant } from "../restaurants";
 
 interface FeaturedRestaurantProps {
@@ -36,13 +37,12 @@ export function FeaturedRestaurant({ restaurant }: FeaturedRestaurantProps) {
             <span>{"€".repeat(restaurant.priceLevel)}</span>
             <span>{restaurant.serviceNote}</span>
           </div>
-          <a
+          <Link
             className="primary-link"
-            href={"#/restaurants/" + restaurant.slug}
+            to={"/restaurants/" + restaurant.slug}
           >
             Voir la fiche <span aria-hidden="true">↗</span>
-          </a>
-          <p className="featured__note">Fiche détaillée en préparation</p>
+          </Link>
         </div>
       </article>
     </section>

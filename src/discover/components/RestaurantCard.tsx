@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import {
   cuisineLabel,
   dietaryLabel,
@@ -12,10 +13,10 @@ interface RestaurantCardProps {
 export function RestaurantCard({ restaurant, index }: RestaurantCardProps) {
   return (
     <article className="restaurant-card">
-      <a
+      <Link
         className="restaurant-card__link"
-        href={"#/restaurants/" + restaurant.slug}
-        aria-label={"Voir la fiche de " + restaurant.name + " (en préparation)"}
+        to={"/restaurants/" + restaurant.slug}
+        aria-label={"Voir la fiche de " + restaurant.name}
       >
         <div className="restaurant-card__photo">
           <img
@@ -51,7 +52,7 @@ export function RestaurantCard({ restaurant, index }: RestaurantCardProps) {
             Voir la fiche <span aria-hidden="true">↗</span>
           </span>
         </div>
-      </a>
+      </Link>
     </article>
   );
 }
