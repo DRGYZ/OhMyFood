@@ -1,2 +1,8 @@
 /loader.scss.txt
 /theme-switcher.js
+
+/node_modules/
+/dist/
+/coverage/
+*.tsbuildinfo
+.env.local
