@@ -2,12 +2,14 @@ import { HashRouter, Route, Routes, useLocation } from "react-router";
 import { useEffect } from "react";
 import { DiscoverPage } from "./discover/DiscoverPage";
 import { RestaurantPage } from "./restaurant/RestaurantPage";
-import { ReservationPlaceholder } from "./restaurant/ReservationPlaceholder";
+import { ReservationPage } from "./reservation/ReservationPage";
+import { ConfirmationPage } from "./reservation/ConfirmationPage";
 import { SelectionProvider } from "./selection/SelectionContext";
 import { SimplePage } from "./SimplePage";
 import "./layout/layout.css";
 import "./discover/discover.css";
 import "./restaurant/restaurant.css";
+import "./reservation/reservation.css";
 
 function ScrollManager() {
   const location = useLocation();
@@ -33,7 +35,11 @@ export function App() {
           <Route path="/restaurants/:slug" element={<RestaurantPage />} />
           <Route
             path="/restaurants/:slug/reservation"
-            element={<ReservationPlaceholder />}
+            element={<ReservationPage />}
+          />
+          <Route
+            path="/restaurants/:slug/confirmation"
+            element={<ConfirmationPage />}
           />
           <Route
             path="*"

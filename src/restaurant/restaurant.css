@@ -480,41 +480,6 @@
   background: var(--color-brand-hover);
 }
 
-.reservation-placeholder {
-  min-height: calc(100vh - 76px);
-  padding-bottom: var(--space-16);
-}
-
-.reservation-placeholder__content {
-  max-width: 47rem;
-  margin-block: clamp(2rem, 5vw, 4rem);
-  padding: clamp(1.5rem, 4vw, 3rem);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-}
-
-.reservation-placeholder h1 {
-  margin-top: var(--space-3);
-}
-
-.reservation-placeholder__content > p:not(.eyebrow) {
-  margin-top: var(--space-5);
-  color: var(--color-text-muted);
-}
-
-.reservation-placeholder__content > .primary-link {
-  margin-top: var(--space-8);
-}
-
-.reservation-placeholder__dishes {
-  display: grid;
-  gap: var(--space-2);
-  margin: var(--space-6) 0;
-  padding: var(--space-5);
-  border-block: 1px solid var(--color-border);
-  list-style: none;
-}
-
 @media (max-width: 47.99rem) {
   .replace-dialog__actions {
     display: grid;
