@@ -786,3 +786,304 @@
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Art and motion pass: preserve the hero, menu, and booking composition. */
+.restaurant-page {
+  background:
+    radial-gradient(ellipse 32rem 36rem at 92% 48%, rgb(167 99 73 / 8%), transparent 74%),
+    radial-gradient(ellipse 28rem 25rem at 6% 92%, rgb(67 29 45 / 5%), transparent 76%);
+}
+
+.restaurant-hero__photo::after {
+  background:
+    linear-gradient(115deg, rgb(45 15 31 / 15%), transparent 55%),
+    linear-gradient(180deg, transparent 50%, rgb(22 13 18 / 30%) 100%);
+}
+
+.restaurant-hero__content {
+  background:
+    radial-gradient(circle at 92% 12%, rgb(175 101 104 / 23%), transparent 48%),
+    linear-gradient(135deg, #421b31, #321324);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 13%);
+}
+
+.restaurant-hero__number {
+  color: rgb(255 255 255 / 12%);
+}
+
+.menu-section__number {
+  font-size: clamp(5rem, 7vw, 7rem);
+}
+
+.menu-section__items {
+  position: relative;
+}
+
+.menu-section__items::before {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: clamp(4rem, 18%, 10rem);
+  height: 2px;
+  background: var(--color-accent);
+  content: "";
+  transform-origin: left center;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--restaurant-wine);
+  content: "";
+  transform: scaleY(0);
+  transform-origin: center;
+}
+
+.menu-item::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(105deg, #f1e0e5, #fbf4ef 88%);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-item > * {
+  position: relative;
+  z-index: 1;
+}
+
+.menu-item--selected {
+  box-shadow: none;
+}
+
+.menu-item--selected::after {
+  opacity: 1;
+}
+
+.menu-item--selected::before {
+  transform: scaleY(1);
+}
+
+.menu-item--selected .menu-item__price {
+  color: var(--color-accent);
+}
+
+.quantity-control {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%);
+}
+
+.selection-panel--active {
+  border-top-color: var(--color-accent);
+  background:
+    radial-gradient(circle at 95% 5%, rgb(181 100 104 / 28%), transparent 52%),
+    linear-gradient(135deg, #421b31, #301221);
+  color: #fffaf5;
+  box-shadow: 0 18px 36px rgb(40 20 31 / 14%), inset 0 1px 0 rgb(255 255 255 / 13%);
+}
+
+.selection-panel--active h2,
+.selection-panel--active .selection-panel__list li > span:last-child,
+.selection-panel--active .selection-panel__total strong {
+  color: #fffaf5;
+}
+
+.selection-panel--active .eyebrow {
+  color: #e8bca6;
+}
+
+.selection-panel--active .selection-panel__intro,
+.selection-panel--active .selection-panel__clear {
+  color: #e7d2d6;
+}
+
+.selection-panel--active .selection-panel__list li,
+.selection-panel--active .selection-panel__total {
+  border-color: rgb(255 255 255 / 22%);
+}
+
+.selection-panel--active .selection-panel__continue {
+  background: #fffaf3;
+  color: var(--restaurant-wine);
+}
+
+.selection-panel--active .selection-panel__continue:hover {
+  background: #f2dfd1;
+}
+
+.selection-mobile {
+  background:
+    radial-gradient(circle at 90% 0%, rgb(164 88 95 / 28%), transparent 54%),
+    var(--restaurant-wine);
+  box-shadow: 0 -8px 26px rgb(26 20 18 / 15%), inset 0 1px 0 rgb(255 255 255 / 12%);
+}
+
+.replace-dialog {
+  background:
+    radial-gradient(circle at 95% 0%, rgb(176 105 80 / 10%), transparent 46%),
+    #fffaf3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .restaurant-hero__photo img {
+    animation: restaurant-photo-art-in 560ms var(--ease-arrive) both;
+    transition: transform var(--motion-image) var(--ease-arrive), filter var(--motion-image) var(--ease-arrive);
+  }
+
+  .restaurant-hero:hover .restaurant-hero__photo img {
+    transform: scale(1.025);
+    filter: saturate(1.04) brightness(1.02);
+  }
+
+  .restaurant-hero__number,
+  .restaurant-hero__content > .eyebrow,
+  .restaurant-hero h1,
+  .restaurant-hero__description,
+  .restaurant-hero__facts,
+  .restaurant-hero__dietary,
+  .restaurant-menu__intro {
+    animation: restaurant-art-enter var(--motion-reveal) var(--ease-arrive) both;
+  }
+
+  .restaurant-hero__number { animation-delay: 45ms; }
+  .restaurant-hero__content > .eyebrow { animation-delay: 95ms; }
+  .restaurant-hero h1 { animation-delay: 150ms; }
+  .restaurant-hero__description { animation-delay: 205ms; }
+  .restaurant-hero__facts { animation-delay: 260ms; }
+  .restaurant-hero__dietary { animation-delay: 290ms; }
+  .restaurant-menu__intro { animation-delay: 315ms; }
+
+  .restaurant-page [data-scroll-reveal] {
+    transition:
+      opacity var(--motion-reveal) var(--ease-arrive),
+      transform var(--motion-reveal) var(--ease-arrive);
+  }
+
+  .restaurant-page [data-scroll-reveal][data-reveal-state="pending"] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .restaurant-page [data-scroll-reveal][data-reveal-instant] {
+    transition: none;
+  }
+
+  .restaurant-page .menu-section {
+    animation: none;
+  }
+
+  .menu-section__items::before {
+    transition: transform 480ms var(--ease-arrive) 120ms;
+  }
+
+  .menu-section[data-reveal-state="pending"] .menu-section__items::before {
+    transform: scaleX(0);
+  }
+
+  .menu-item {
+    transition: background var(--motion-ui) ease-out;
+  }
+
+  .menu-item::before {
+    transition: transform var(--motion-ui) var(--ease-arrive);
+  }
+
+  .menu-item::after {
+    transition: opacity var(--motion-ui) ease-out;
+  }
+
+  .menu-item h3,
+  .menu-item__price {
+    transition: color var(--motion-ui) ease-out, transform var(--motion-ui) var(--ease-arrive);
+  }
+
+  .menu-item:not(.menu-item--selected):hover {
+    background: rgb(227 207 192 / 22%);
+  }
+
+  .menu-item:hover h3 {
+    transform: translateX(2px);
+  }
+
+  .menu-item:hover .menu-item__price {
+    color: var(--color-accent);
+  }
+
+  .menu-item--selected .quantity-control {
+    animation: restaurant-quantity-in var(--motion-ui) var(--ease-arrive) both;
+  }
+
+  .menu-item__add,
+  .quantity-control button,
+  .selection-panel__continue,
+  .selection-mobile a,
+  .replace-dialog__actions button {
+    transition:
+      background-color var(--motion-micro) ease-out,
+      color var(--motion-micro) ease-out,
+      border-color var(--motion-micro) ease-out,
+      transform var(--motion-micro) ease-out;
+  }
+
+  .menu-item__add:active,
+  .quantity-control button:active:not(:disabled),
+  .selection-panel__continue:active,
+  .selection-mobile a:active,
+  .replace-dialog__actions button:active {
+    transform: scale(.98);
+  }
+
+  .selection-panel__total strong,
+  .selection-mobile > div span {
+    animation: restaurant-total-in 220ms var(--ease-arrive) both;
+  }
+
+  .selection-panel--active .selection-panel__continue:hover,
+  .selection-mobile a:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes restaurant-photo-art-in {
+  from { opacity: .3; transform: scale(1.025); clip-path: inset(0 0 8% 0); }
+  to { opacity: 1; transform: scale(1); clip-path: inset(0); }
+}
+
+@keyframes restaurant-art-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes restaurant-quantity-in {
+  from { opacity: .5; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes restaurant-total-in {
+  from { opacity: .65; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 47.99rem) and (prefers-reduced-motion: no-preference) {
+  .restaurant-hero__photo img {
+    animation: restaurant-photo-mobile-in 420ms var(--ease-arrive) both;
+  }
+
+  .restaurant-page [data-scroll-reveal][data-reveal-state="pending"] {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes restaurant-photo-mobile-in {
+  from { opacity: .4; transform: scale(1.012); }
+  to { opacity: 1; transform: scale(1); }
+}

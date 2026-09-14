@@ -13,7 +13,7 @@ interface RestaurantCardProps {
 export function RestaurantCard({ restaurant, index }: RestaurantCardProps) {
   const location = useLocation();
   return (
-    <article className="restaurant-card">
+    <article className="restaurant-card" data-scroll-reveal>
       <Link
         className="restaurant-card__link"
         to={"/restaurants/" + restaurant.slug}

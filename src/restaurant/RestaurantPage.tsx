@@ -14,6 +14,7 @@ import { useSelection } from "../selection/SelectionContext";
 import { MAX_QUANTITY, selectionStatus, summarizeSelection } from "../selection/selection";
 import { SimplePage } from "../SimplePage";
 import { discoverReturnTo } from "../navigation/discoverReturn";
+import { useScrollReveal } from "../motion/useScrollReveal";
 import type { MenuItem, MenuSection as MenuSectionData } from "./types";
 
 const euro = new Intl.NumberFormat("fr-FR", {
@@ -100,7 +101,7 @@ interface MenuSectionProps {
 
 function MenuSection({ section, index, quantities, onChange }: MenuSectionProps) {
   return (
-    <section className="menu-section" aria-labelledby={section.id}>
+    <section className="menu-section" aria-labelledby={section.id} data-scroll-reveal>
       <div className="menu-section__heading">
         <span className="menu-section__number" aria-hidden="true">
           {String(index + 1).padStart(2, "0")}
@@ -137,7 +138,7 @@ function SelectionSummary({ restaurant, onClear, returnTo }: { restaurant: Resta
 
   return (
     <>
-      <aside className="selection-panel" aria-labelledby="selection-heading">
+      <aside className={"selection-panel" + (itemCount > 0 ? " selection-panel--active" : "")} aria-labelledby="selection-heading" data-scroll-reveal>
         <p className="eyebrow">Votre moment à table</p>
         <h2 id="selection-heading">Votre sélection</h2>
         <p className="selection-panel__intro">
@@ -159,7 +160,7 @@ function SelectionSummary({ restaurant, onClear, returnTo }: { restaurant: Resta
         )}
         <div className="selection-panel__total">
           <span>Sous-total · {itemCount} {itemCount === 1 ? "plat" : "plats"}</span>
-          <strong>{euro.format(subtotal)}</strong>
+          <strong key={subtotal}>{euro.format(subtotal)}</strong>
         </div>
         {itemCount > 0 ? (
           <Link className="selection-panel__continue" to={"/restaurants/" + restaurant.slug + "/reservation"} state={{ discoverReturnTo: returnTo }}>
@@ -182,7 +183,7 @@ function SelectionSummary({ restaurant, onClear, returnTo }: { restaurant: Resta
         <div className="selection-mobile">
           <div>
             <strong>{itemCount} {itemCount === 1 ? "plat" : "plats"}</strong>
-            <span>{euro.format(subtotal)}</span>
+            <span key={subtotal}>{euro.format(subtotal)}</span>
           </div>
           <Link to={"/restaurants/" + restaurant.slug + "/reservation"} state={{ discoverReturnTo: returnTo }} aria-label={"Voir ma sélection : " + itemCount + " " + (itemCount === 1 ? "plat" : "plats") + ", " + euro.format(subtotal)}>
             Continuer <span aria-hidden="true">↗</span>
@@ -202,6 +203,8 @@ export function RestaurantPage() {
   const [announcement, setAnnouncement] = useState("");
   const [pendingItem, setPendingItem] = useState<MenuItem | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const revealRootRef = useRef<HTMLElement>(null);
+  useScrollReveal(revealRootRef, slug ?? "");
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -254,7 +257,7 @@ export function RestaurantPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="restaurant-page">
+      <main id="main-content" className="restaurant-page" ref={revealRootRef}>
         <div className="page-shell">
           <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
             <Link to={returnTo}>Les tables</Link>

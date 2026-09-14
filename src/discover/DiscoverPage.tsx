@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useSearchParams } from "react-router";
 import { FeaturedRestaurant } from "./components/FeaturedRestaurant";
 import { FilterBar } from "./components/FilterBar";
@@ -11,6 +12,7 @@ import {
   type DiscoverFilters,
 } from "./filters";
 import { restaurants } from "../data/restaurants";
+import { useScrollReveal } from "../motion/useScrollReveal";
 import "./discover.css";
 
 const emptyFilters: DiscoverFilters = {
@@ -22,6 +24,8 @@ const emptyFilters: DiscoverFilters = {
 
 export function DiscoverPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const revealRootRef = useRef<HTMLElement>(null);
+  useScrollReveal(revealRootRef, searchParams.toString());
   const filters = parseFilters(searchParams);
 
   function changeFilters(
@@ -49,7 +53,7 @@ export function DiscoverPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="discover-page">
+      <main id="main-content" className="discover-page" ref={revealRootRef}>
         <div className="page-shell">
           <div className={
             "discover-opening" +
@@ -85,7 +89,10 @@ export function DiscoverPage() {
             id="restaurants"
             aria-labelledby="restaurants-title"
           >
-            <div className="section-heading restaurants-section__heading">
+            <div
+              className="section-heading restaurants-section__heading"
+              data-scroll-reveal
+            >
               <div>
                 <span className="eyebrow">
                   {hasActiveFilters ? "Votre sélection" : "Poursuivre la découverte"}

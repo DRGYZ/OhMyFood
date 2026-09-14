@@ -13,6 +13,12 @@
   --color-herb: #2a5a3b;
   --color-accent: #9e472a;
 
+  --motion-micro: 140ms;
+  --motion-ui: 200ms;
+  --motion-reveal: 420ms;
+  --motion-image: 680ms;
+  --ease-arrive: cubic-bezier(.22, 1, .36, 1);
+
   --font-editorial: "EB Garamond Variable", Georgia, serif;
   --font-interface: "Plus Jakarta Sans Variable", "Segoe UI", sans-serif;
   --text-small: 0.875rem;
