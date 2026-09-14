@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { Link, useLocation, useParams } from "react-router";
 import { restaurantBySlug } from "../data/restaurants";
 import { SiteFooter } from "../layout/SiteFooter";
 import { SiteHeader } from "../layout/SiteHeader";
 import { SimplePage } from "../SimplePage";
+import { useScrollReveal } from "../motion/useScrollReveal";
 import { discoverReturnTo } from "../navigation/discoverReturn";
 import { browserConfirmationStorage, readConfirmation } from "./confirmation";
 import { formatFrenchDate } from "./dates";
@@ -15,6 +17,8 @@ const euro = new Intl.NumberFormat("fr-FR", {
 
 export function ConfirmationPage() {
   const { slug } = useParams();
+  const pageRef = useRef<HTMLElement>(null);
+  useScrollReveal(pageRef, slug ?? "");
   const location = useLocation();
   const returnTo = discoverReturnTo(location.state);
   const restaurant = slug ? restaurantBySlug(slug) : undefined;
@@ -36,7 +40,7 @@ export function ConfirmationPage() {
     return (
       <>
         <SiteHeader />
-        <main id="main-content" className="booking-page booking-page--empty page-shell">
+        <main id="main-content" className="booking-page booking-page--empty booking-page--confirmation-empty page-shell">
           <div className="booking-empty">
             <p className="eyebrow">Votre expérience · {restaurant.name}</p>
             <h1>Aucune réservation à afficher</h1>
@@ -55,7 +59,7 @@ export function ConfirmationPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="booking-page page-shell">
+      <main id="main-content" className="booking-page booking-page--confirmation page-shell" ref={pageRef}>
         <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
           <Link to={returnTo}>Les tables</Link>
           <span aria-hidden="true">/</span>
@@ -63,32 +67,48 @@ export function ConfirmationPage() {
           <span aria-hidden="true">/</span>
           <span aria-current="page">Confirmation</span>
         </nav>
-        <div className="confirmation">
-          <div className="confirmation__heading">
-            <span className="confirmation__mark" aria-hidden="true">✓</span>
-            <p className="eyebrow">Votre table vous attend</p>
-            <h1>Réservation confirmée</h1>
-            <p>À bientôt chez {snapshot.restaurantName}, {snapshot.contact.firstName}.</p>
-            <p className="confirmation__reference">Référence <strong>{snapshot.reference}</strong></p>
-          </div>
+        <article className="confirmation">
+          <header className="confirmation__hero" data-scroll-reveal>
+            <div className="confirmation__hero-copy">
+              <div className="confirmation__status">
+                <span className="confirmation__mark" aria-hidden="true">✓</span>
+                <p className="eyebrow">Réservation confirmée</p>
+              </div>
+              <h1>Votre table vous attend.</h1>
+              <p className="confirmation__welcome">À bientôt chez <strong>{snapshot.restaurantName}</strong>, {snapshot.contact.firstName}.</p>
+              <div className="confirmation__hero-facts" aria-label="Votre rendez-vous">
+                <span><time dateTime={snapshot.date}>{formatFrenchDate(snapshot.date)}</time></span>
+                <span><time dateTime={snapshot.time}>{snapshot.time}</time></span>
+                <span>{snapshot.partySize} {snapshot.partySize === 1 ? "personne" : "personnes"}</span>
+              </div>
+              <div className="confirmation__reference">
+                <span>Votre référence</span>
+                <strong>{snapshot.reference}</strong>
+              </div>
+            </div>
+            <div className="confirmation__image">
+              <img src={restaurant.image.src} alt="" width={restaurant.image.width} height={restaurant.image.height} />
+            </div>
+          </header>
           <div className="confirmation__details">
-            <section aria-labelledby="confirmation-visit-title">
-              <p className="eyebrow">Votre venue</p>
-              <h2 id="confirmation-visit-title">Le rendez-vous</h2>
+            <section className="confirmation__visit" aria-labelledby="confirmation-visit-title" data-scroll-reveal>
+              <p className="eyebrow">01 / Votre rendez-vous</p>
+              <h2 id="confirmation-visit-title">Le moment choisi</h2>
               <dl className="confirmation__facts">
                 <div><dt>Restaurant</dt><dd>{snapshot.restaurantName}</dd></div>
-                <div><dt>Date</dt><dd>{formatFrenchDate(snapshot.date)}</dd></div>
-                <div><dt>Heure</dt><dd>{snapshot.time}</dd></div>
+                <div><dt>Date</dt><dd><time dateTime={snapshot.date}>{formatFrenchDate(snapshot.date)}</time></dd></div>
+                <div><dt>Heure</dt><dd><time dateTime={snapshot.time}>{snapshot.time}</time></dd></div>
                 <div><dt>Convives</dt><dd>{snapshot.partySize} {snapshot.partySize === 1 ? "personne" : "personnes"}</dd></div>
+                <div className="confirmation__contact"><dt>Contact</dt><dd>{snapshot.contact.firstName} {snapshot.contact.lastName}<small>{snapshot.contact.email}<br />{snapshot.contact.phone}</small></dd></div>
               </dl>
             </section>
-            <section aria-labelledby="confirmation-menu-title">
-              <p className="eyebrow">À table</p>
+            <section className="confirmation__menu" aria-labelledby="confirmation-menu-title" data-scroll-reveal>
+              <p className="eyebrow">02 / À votre table</p>
               <h2 id="confirmation-menu-title">Votre menu</h2>
               <ul className="confirmation__dishes">
                 {snapshot.dishes.map((dish) => (
                   <li key={dish.itemId}>
-                    <span><strong>{dish.quantity} ×</strong> {dish.name}</span>
+                    <span><strong>{dish.name}</strong><small>{dish.quantity} × {euro.format(dish.unitPrice)}</small></span>
                     <strong>{euro.format(dish.lineTotal)}</strong>
                   </li>
                 ))}
@@ -99,11 +119,15 @@ export function ConfirmationPage() {
               <p className="booking-summary__note">Le règlement se fait au restaurant.</p>
             </section>
           </div>
-          <div className="confirmation-actions">
+          <div className="confirmation-actions" data-scroll-reveal>
+            <div>
+              <p className="eyebrow">La suite</p>
+              <p>Une autre table pour un autre moment ?</p>
+            </div>
             <Link className="primary-link" to="/">Découvrir les tables <span aria-hidden="true">↗</span></Link>
             <Link to={menuUrl} state={{ discoverReturnTo: returnTo }}>Voir {restaurant.name}</Link>
           </div>
-        </div>
+        </article>
       </main>
       <SiteFooter />
     </>
