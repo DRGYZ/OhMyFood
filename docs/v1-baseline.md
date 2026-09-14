@@ -8,4 +8,4 @@ The submitted V1 is preserved at commit d56531f1b22e46acc1a573d7ce2c137832d62341
 - **Assets:** Four JPG restaurant photos are used on the homepage and menu pages. Five small PNG photo crops are present but unreferenced.
 - **Known limits:** Repeated page content, placeholder footer links, no build/test commands, no meaningful JS interactions, and an 11 MB restaurant photo. The empty locales/en.json has no current role.
 
-V2 will be an independent React + TypeScript rebuild on ohmyfood-v2. The archived V1 source and history stay unchanged.
+V2 was independently rebuilt in React + TypeScript on ohmyfood-v2. The archived V1 source and history remain unchanged.
