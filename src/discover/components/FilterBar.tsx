@@ -45,6 +45,7 @@ export function FilterBar({
         </div>
         <button
           className="filter-bar__toggle"
+          data-active={activeFilters > 0}
           type="button"
           aria-expanded={expanded}
           aria-controls="discover-filters"

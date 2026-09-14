@@ -1,681 +1,968 @@
-.intro {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: var(--space-8);
-  padding-block: clamp(2.5rem, 4vw, 4.5rem) var(--space-8);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--color-accent);
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.eyebrow__line {
-  width: 22px;
-  height: 1px;
-  background: currentColor;
-}
-
-.intro h1 {
-  margin-top: var(--space-4);
-  letter-spacing: -0.035em;
-}
-
-.intro h1 em {
-  color: var(--color-brand);
-  font-weight: 500;
-}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:var(--space-3);
+  color:var(--color-accent);
+  font-size:.75rem;
+  font-weight:700;
+  line-height:1.4;
+  letter-spacing:.14em;
+  text-transform:uppercase
+}
+
+.eyebrow__line{
+  width:22px;
+  height:1px;
+  background:currentColor
+}
+
+.primary-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--space-8);
+  min-height:var(--touch-target);
+  padding:0 var(--space-5);
+  border:1px solid var(--color-brand);
+  border-radius:var(--radius-sm);
+  background:var(--color-brand);
+  color:white;
+  font-size:var(--text-small);
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer
+}
+
+.primary-link:hover{
+  background:var(--color-brand-hover)
+}
+
+
+/* Scoped to Discover so the remaining V2 screens keep their approved styling. */
+.discover-page{
+  --wine:#3b172b;
+  --ink:#211716;
+  --rule:#cfc3b4;
+  --cream:#f5efe5
+}
+
+.discover-opening{
+  display:grid;
+  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+  grid-template-rows:auto 1fr;
+  gap:0 clamp(2rem,4vw,4.5rem);
+  min-height:590px;
+  padding-top:clamp(2rem,4vw,3.5rem)
+}
+
+.discover-page .intro{
+  display:flex;
+  flex-direction:column;
+  align-items:start;
+  justify-content:flex-start;
+  min-width:0;
+  padding:clamp(3rem,5vw,5rem) 0 2rem
+}
+
+.discover-page .intro h1{
+  max-width:8ch;
+  margin-top:clamp(1.75rem,3vw,3.5rem);
+  color:var(--ink);
+  font-size:clamp(4.5rem,7vw,6.5rem);
+  font-weight:500;
+  line-height:.92;
+  letter-spacing:-.065em
+}
+
+.discover-page .intro h1 em{
+  display:block;
+  color:var(--color-brand);
+  font-weight:500
+}
+
+.discover-page .intro__lead{
+  max-width:30ch;
+  margin-top:clamp(1.75rem,2.8vw,3rem);
+  color:var(--color-text-muted);
+  font-size:clamp(1rem,1.2vw,1.125rem);
+  line-height:1.7
+}
+
+.discover-page .filter-bar{
+  align-self:start;
+  min-width:0;
+  margin-bottom:clamp(1.5rem,3vw,3rem);
+  padding-top:1.25rem;
+  border-top:1px solid var(--rule)
+}
+
+.discover-page .filter-bar__top{
+  display:flex;
+  align-items:end;
+  gap:.75rem;
+  min-width:0
+}
+
+.discover-page .search-field,.discover-page .select-field{
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+  min-width:0
+}
+
+.discover-page .search-field{
+  flex:1
+}
+
+.discover-page .search-field label,.discover-page .select-field>span{
+  color:var(--color-text-muted);
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase
+}
+
+.discover-page .search-field__control{
+  display:flex;
+  align-items:center;
+  min-height:3.5rem;
+  padding-inline:1rem;
+  border:1px solid var(--rule);
+  background:#fffdf9;
+  transition:border-color 200ms ease,background-color 200ms ease
+}
+
+.discover-page .search-field__control:hover{
+  border-color:var(--color-brand)
+}
+
+.discover-page .search-field__control:focus-within{
+  border-color:var(--color-brand);
+  outline:2px solid var(--color-brand);
+  outline-offset:2px
+}
+
+.discover-page .search-glyph{
+  position:relative;
+  width:15px;
+  height:15px;
+  flex:none;
+  margin-right:.85rem;
+  border:2px solid var(--color-text-muted);
+  border-radius:50%
+}
+
+.discover-page .search-glyph::after{
+  position:absolute;
+  right:-5px;
+  bottom:-3px;
+  width:7px;
+  height:2px;
+  background:var(--color-text-muted);
+  content:"";
+  transform:rotate(45deg)
+}
+
+.discover-page .search-field input{
+  width:100%;
+  min-width:0;
+  height:3.4rem;
+  padding:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--ink);
+  font-size:.94rem
+}
+
+.discover-page .search-field input::placeholder{
+  color:var(--color-text-muted);
+  opacity:1
+}
+
+.discover-page .filter-bar__toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.5rem;
+  flex:none;
+  min-height:3.5rem;
+  padding:0 .9rem;
+  border:1px solid var(--rule);
+  background:var(--cream);
+  color:var(--color-brand);
+  font-size:.875rem;
+  font-weight:700;
+  transition:background-color 200ms ease,border-color 200ms ease
+}
+
+.discover-page .filter-bar__toggle:hover,.discover-page .filter-bar__toggle[aria-expanded=true]{
+  border-color:var(--color-brand);
+  background:#eadfda
+}
+
+.discover-page .filter-bar__toggle[data-active=true]{
+  border-color:var(--color-brand);
+  background:var(--color-brand);
+  color:white
+}
+
+.discover-page .filter-bar__toggle span{
+  font-size:1.1rem;
+  line-height:1
+}
+
+.discover-page .filter-bar__fields{
+  display:none;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.75rem;
+  padding-top:1rem
+}
+
+.discover-page .filter-bar__fields--open{
+  display:grid
+}
+
+.discover-page .select-field select{
+  width:100%;
+  min-height:var(--touch-target);
+  padding:0 1.5rem 0 .6rem;
+  border:1px solid var(--rule);
+  border-radius:0;
+  background:#fffdf9;
+  color:var(--ink);
+  font-size:.8rem;
+  text-overflow:ellipsis
+}
+
+.discover-page .select-field select:hover,.discover-page .select-field select:focus-visible{
+  border-color:var(--color-brand)
+}
+
+.discover-page .featured-section{
+  position:relative;
+  grid-column:2;
+  grid-row:1/3;
+  min-width:0;
+  overflow:hidden;
+  background:var(--wine)
+}
+
+.discover-page .featured-section>.section-heading{
+  position:absolute;
+  z-index:2;
+  top:clamp(1.25rem,2.5vw,2.25rem);
+  right:clamp(1.25rem,2.5vw,2.25rem);
+  left:clamp(1.25rem,2.5vw,2.25rem);
+  display:flex;
+  align-items:start;
+  justify-content:space-between;
+  gap:1rem;
+  color:white
+}
+
+.discover-page .featured-section .section-heading .eyebrow,.discover-page .featured-section .section-heading__aside{
+  color:white;
+  text-shadow:0 1px 8px rgb(0 0 0 / 55%)
+}
+
+.discover-page .featured-section .section-heading h2{
+  margin-top:.3rem;
+  font-size:clamp(1.5rem,2.3vw,2rem);
+  text-shadow:0 1px 8px rgb(0 0 0 / 55%)
+}
+
+.discover-page .featured-section .section-heading__aside{
+  padding-top:.15rem;
+  font-size:.75rem;
+  white-space:nowrap
+}
+
+.discover-page .featured{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  min-height:590px
+}
+
+.discover-page .featured__photo{
+  position:relative;
+  flex:1 1 56%;
+  min-height:320px;
+  overflow:hidden;
+  background:#6b453a
+}
+
+.discover-page .featured__photo::after{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgb(16 9 10 / 48%),transparent 38%,rgb(16 9 10 / 20%) 100%);
+  content:"";
+  pointer-events:none
+}
+
+.discover-page .featured__photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:53% 49%
+}
+
+.discover-page .featured__photo-label{
+  position:absolute;
+  z-index:1;
+  right:2rem;
+  bottom:1.4rem;
+  color:white;
+  font-size:.8rem;
+  font-weight:700;
+  text-shadow:0 1px 8px rgb(0 0 0 / 70%)
+}
+
+.discover-page .featured__content{
+  position:relative;
+  flex:0 0 auto;
+  min-height:270px;
+  padding:clamp(1.5rem,3vw,2.5rem);
+  color:white;
+  background:var(--wine)
+}
+
+.discover-page .featured__watermark{
+  position:absolute;
+  top:-.05em;
+  right:.15em;
+  color:rgb(255 255 255 / 9%);
+  font-family:var(--font-editorial);
+  font-size:clamp(8rem,13vw,13rem);
+  line-height:1;
+  pointer-events:none
+}
+
+.discover-page .featured__content>.eyebrow{
+  position:relative;
+  z-index:1;
+  color:#e0b7a0
+}
+
+.discover-page .featured__content h3{
+  position:relative;
+  z-index:1;
+  max-width:12ch;
+  margin-top:.45rem;
+  font-size:clamp(2.8rem,4vw,4.4rem);
+  line-height:.98;
+  letter-spacing:-.04em
+}
+
+.discover-page .featured__description{
+  position:relative;
+  z-index:1;
+  max-width:44ch;
+  margin-top:.7rem;
+  color:#eddfdf;
+  font-size:.9rem;
+  line-height:1.55
+}
+
+.discover-page .featured__facts{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.35rem .85rem;
+  margin-top:1rem;
+  color:#f6e9e8;
+  font-size:.8rem;
+  font-weight:700
+}
+
+.discover-page .featured__facts span+span::before{
+  margin-right:.85rem;
+  color:#b99aab;
+  content:"·"
+}
+
+.discover-page .featured__content .primary-link{
+  position:relative;
+  z-index:1;
+  justify-content:start;
+  gap:1rem;
+  min-height:var(--touch-target);
+  margin-top:.7rem;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:white;
+  text-decoration:underline;
+  text-decoration-color:#c79da8;
+  text-underline-offset:5px
+}
+
+.discover-page .featured__content .primary-link:hover{
+  background:transparent;
+  text-decoration-color:white
+}
 
-.intro__lead {
-  max-width: 24rem;
-  padding-bottom: var(--space-2);
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  line-height: 1.65;
+.discover-page .restaurants-section{
+  scroll-margin-top:2rem;
+  margin-block:clamp(4rem,7vw,7rem) clamp(4rem,8vw,8rem)
 }
 
-.filter-bar {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 2.1fr);
-  align-items: end;
-  gap: var(--space-6);
-  margin-block: var(--space-6) var(--space-8);
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-}
-
-.filter-bar__top {
-  min-width: 0;
-}
+.discover-page .restaurants-section__heading{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:1.5rem;
+  margin-bottom:2rem;
+  padding-bottom:1.4rem;
+  border-bottom:1px solid var(--rule)
+}
+
+.discover-page .restaurants-section__heading h2{
+  margin-top:.4rem;
+  font-size:clamp(2.5rem,4.2vw,4.4rem);
+  line-height:1;
+  letter-spacing:-.035em
+}
+
+.discover-page .results-count{
+  padding-bottom:.2rem;
+  color:var(--color-text-muted);
+  font-size:.85rem;
+  white-space:nowrap
+}
+
+.discover-page .results-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.5rem;
+  color:var(--color-text-muted);
+  font-size:.9rem
+}
+
+.discover-page .text-button{
+  min-height:var(--touch-target);
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--color-brand);
+  font-weight:700;
+  text-decoration:underline;
+  text-underline-offset:4px
+}
+
+.discover-page .restaurant-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(2rem,4vw,4.25rem) clamp(1.5rem,3vw,3.5rem)
+}
+
+.discover-page .restaurant-card{
+  min-width:0
+}
+
+.discover-page .restaurant-card:nth-child(2){
+  padding-top:clamp(3rem,7vw,7rem)
+}
+
+.discover-page .restaurant-card:nth-child(3){
+  grid-column:1/-1
+}
+
+.discover-page .restaurant-card__link{
+  display:block;
+  height:100%;
+  color:inherit;
+  text-decoration:none
+}
+
+.discover-page .restaurant-card__link:focus-visible{
+  outline:3px solid var(--color-brand);
+  outline-offset:5px
+}
+
+.discover-page .restaurant-card__photo{
+  height:clamp(280px,35vw,470px);
+  overflow:hidden;
+  background:var(--cream)
+}
 
-.search-field,
-.select-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  min-width: 0;
+.discover-page .restaurant-card:nth-child(2) .restaurant-card__photo{
+  height:clamp(260px,29vw,385px)
 }
 
-.search-field label,
-.select-field > span {
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.discover-page .restaurant-card:nth-child(3) .restaurant-card__link{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  align-items:stretch;
+  background:var(--cream)
 }
 
-.search-field__control {
-  display: flex;
-  align-items: center;
-  min-height: var(--touch-target);
-  padding-inline: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-canvas);
+.discover-page .restaurant-card:nth-child(3) .restaurant-card__photo{
+  height:clamp(330px,39vw,480px)
 }
 
-.search-field__control:focus-within {
-  border-color: var(--color-brand);
-  outline: 2px solid var(--color-brand);
-  outline-offset: 2px;
+.discover-page .restaurant-card__photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover
 }
 
-.search-glyph {
-  position: relative;
-  width: 15px;
-  height: 15px;
-  flex: none;
-  margin-right: var(--space-3);
-  border: 2px solid var(--color-text-muted);
-  border-radius: 50%;
+.discover-page .restaurant-card:nth-child(1) img{
+  object-position:center 49%
 }
 
-.search-glyph::after {
-  position: absolute;
-  right: -5px;
-  bottom: -3px;
-  width: 7px;
-  height: 2px;
-  background: var(--color-text-muted);
-  content: "";
-  transform: rotate(45deg);
+.discover-page .restaurant-card:nth-child(2) img{
+  object-position:center 52%
 }
 
-.search-field input {
-  width: 100%;
-  min-width: 0;
-  height: var(--touch-target);
-  padding: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--color-text);
-  font-size: 0.9rem;
+.discover-page .restaurant-card:nth-child(3) img{
+  object-position:center 55%
 }
 
-.search-field input::placeholder {
-  color: var(--color-text-muted);
-  opacity: 1;
+.discover-page .restaurant-card__content{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:start;
+  min-width:0;
+  padding:1.2rem 0 0
 }
 
-.filter-bar__toggle {
-  display: none;
+.discover-page .restaurant-card:nth-child(3) .restaurant-card__content{
+  justify-content:flex-start;
+  padding:clamp(1.5rem,4vw,4rem)
 }
 
-.filter-bar__fields {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-3);
+.discover-page .restaurant-card__number{
+  color:var(--color-accent);
+  font-family:var(--font-editorial);
+  font-size:clamp(3.2rem,5vw,5rem);
+  line-height:.8;
+  letter-spacing:-.04em
 }
 
-.select-field select {
-  width: 100%;
-  min-height: var(--touch-target);
-  padding: 0 var(--space-8) 0 var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-canvas);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  text-overflow: ellipsis;
-  cursor: pointer;
+.discover-page .restaurant-card h3{
+  max-width:14ch;
+  margin-top:.8rem;
+  font-size:clamp(2.15rem,3vw,3.5rem);
+  line-height:.98;
+  letter-spacing:-.035em
 }
 
-.select-field select:hover,
-.select-field select:focus-visible {
-  border-color: var(--color-brand);
+.discover-page .restaurant-card__location{
+  margin-top:.8rem;
+  color:var(--color-accent);
+  font-size:.86rem;
+  font-weight:700
 }
 
-.featured-section {
-  margin-bottom: var(--space-16);
+.discover-page .restaurant-card__description{
+  max-width:48ch;
+  margin-top:.6rem;
+  color:var(--color-text-muted);
+  font-size:.94rem;
+  line-height:1.6
 }
 
-.section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: var(--space-6);
-  margin-bottom: var(--space-4);
+.discover-page .restaurant-card__bottom{
+  display:flex;
+  gap:1.2rem;
+  margin-top:1.2rem;
+  color:var(--ink);
+  font-size:.85rem;
+  font-weight:700
 }
 
-.section-heading h2 {
-  margin-top: var(--space-2);
-  letter-spacing: -0.025em;
+.discover-page .restaurant-card__dietary{
+  margin-top:.5rem;
+  color:var(--color-herb);
+  font-size:.8rem;
+  font-weight:700
 }
 
-.section-heading__aside,
-.results-count {
-  padding-bottom: var(--space-1);
-  color: var(--color-text-muted);
-  font-size: var(--text-small);
-  white-space: nowrap;
+.discover-page .restaurant-card__action{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  min-height:var(--touch-target);
+  margin-top:.8rem;
+  color:var(--color-brand);
+  font-size:.9rem;
+  font-weight:700;
+  text-decoration:underline;
+  text-underline-offset:5px
 }
 
-.featured {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  min-height: 420px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
+.discover-page .restaurant-grid--filtered{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:2.5rem 1.5rem
 }
 
-.featured__photo {
-  position: relative;
-  min-height: 420px;
-  overflow: hidden;
-  background: var(--color-surface-muted);
+.discover-page .restaurant-grid--filtered .restaurant-card{
+  padding-top:0;
+  grid-column:auto
 }
 
-.featured__photo::after {
-  position: absolute;
-  inset: 0;
-  background: var(--photo-scrim);
-  content: "";
-  pointer-events: none;
+.discover-page .restaurant-grid--filtered .restaurant-card__link{
+  display:block;
+  background:transparent
 }
 
-.featured__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+.discover-page .restaurant-grid--filtered .restaurant-card__photo{
+  height:clamp(250px,29vw,380px)
 }
 
-.featured__photo-label {
-  position: absolute;
-  z-index: 1;
-  right: var(--space-6);
-  bottom: var(--space-6);
-  left: var(--space-6);
-  color: white;
-  font-size: var(--text-small);
-  font-weight: 600;
+.discover-page .restaurant-grid--filtered .restaurant-card__content{
+  padding:1.2rem 0 0
 }
 
-.featured__content {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: clamp(2rem, 4vw, 3.5rem);
+.discover-page .restaurant-grid--single{
+  grid-template-columns:minmax(0,38rem)
 }
 
-.featured__content h3 {
-  margin-top: var(--space-8);
-  font-size: clamp(2.6rem, 3.5vw, 4rem);
-  letter-spacing: -0.035em;
+.discover-page .empty-results{
+  max-width:42rem;
+  padding:clamp(2rem,5vw,4rem);
+  background:var(--cream)
 }
 
-.featured__description {
-  max-width: 30rem;
-  margin-top: var(--space-4);
-  color: var(--color-text-muted);
-  font-size: 1rem;
+.discover-page .empty-results__mark{
+  color:var(--color-accent);
+  font-family:var(--font-editorial);
+  font-size:4rem;
+  line-height:1
 }
 
-.featured__facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
-  width: 100%;
-  margin-top: auto;
-  padding-block: var(--space-8) var(--space-6);
-  color: var(--color-text);
-  font-size: 0.875rem;
-  font-weight: 600;
+.discover-page .empty-results h3{
+  margin-top:.5rem;
+  font-size:2.5rem
 }
 
-.featured__facts span + span::before {
-  margin-right: var(--space-4);
-  color: var(--color-border);
-  content: "|";
+.discover-page .empty-results p{
+  margin-top:1rem;
+  color:var(--color-text-muted)
 }
 
-.primary-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-8);
-  min-height: var(--touch-target);
-  padding: 0 var(--space-5);
-  border: 1px solid var(--color-brand);
-  border-radius: var(--radius-sm);
-  background: var(--color-brand);
-  color: white;
-  font-size: var(--text-small);
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
+.discover-page .empty-results .primary-link{
+  margin-top:1.5rem
 }
 
-.primary-link:hover {
-  background: var(--color-brand-hover);
+.discover-opening--filtered{
+  grid-template-columns:1fr;
+  grid-template-rows:auto auto;
+  min-height:0;
+  max-width:48rem
 }
 
-.featured__content .primary-link {
-  width: 100%;
+.discover-opening--filtered .intro{
+  padding-block:1rem 1.5rem
 }
 
-.restaurants-section {
-  scroll-margin-top: var(--space-8);
-  margin-bottom: clamp(4rem, 8vw, 7rem);
+.discover-opening--filtered .intro h1{
+  margin-top:1rem;
+  font-size:clamp(3.5rem,6vw,5.5rem)
 }
 
-.restaurants-section__heading {
-  padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--color-border);
+.discover-opening--filtered .intro__lead{
+  margin-top:1rem
 }
 
-.results-context {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-  color: var(--color-text-muted);
-  font-size: var(--text-small);
+.discover-opening--filtered .filter-bar{
+  margin-bottom:0
 }
 
-.text-button {
-  min-height: var(--touch-target);
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-brand);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
+.discover-page:has(.discover-opening--filtered) .restaurants-section{
+  margin-top:3rem
 }
+
+@media (prefers-reduced-motion:no-preference){
 
-.restaurant-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
+.discover-page .intro .eyebrow,.discover-page .intro h1,.discover-page .intro__lead,.discover-page .featured__photo img{
+  animation:discover-arrive 420ms ease-out both
 }
 
-.restaurant-grid--single {
-  display: block;
-  max-width: 40rem;
+.discover-page .intro h1{
+  animation-delay:70ms
 }
+.discover-page .intro__lead{
+  animation-delay:125ms
+}
+.discover-page .featured__photo img{
+  animation-delay:95ms
+}
 
-.restaurant-card {
-  min-width: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
+.discover-page .restaurant-card__photo img,.discover-page .featured__photo img{
+  transition:transform 600ms cubic-bezier(.2,.75,.2,1)
 }
 
-.restaurant-card:hover {
-  border-color: var(--color-brand);
+.discover-page .restaurant-card__link:hover img,.discover-page .restaurant-card__link:focus-visible img,.discover-page .featured:hover .featured__photo img{
+  transform:scale(1.03)
 }
 
-.restaurant-card:focus-within {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 3px;
+.discover-page .restaurant-card__action span,.discover-page .featured__content .primary-link span{
+  display:inline-block;
+  transition:transform 140ms ease
 }
 
-.restaurant-card__link {
-  display: grid;
-  grid-template-columns: minmax(0, 39%) minmax(0, 61%);
-  min-height: 238px;
-  color: inherit;
-  text-decoration: none;
+.discover-page .restaurant-card__link:hover .restaurant-card__action span,.discover-page .restaurant-card__link:focus-visible .restaurant-card__action span,.discover-page .featured__content .primary-link:hover span{
+  transform:translate(3px,-2px)
 }
 
-.restaurant-card__link:focus-visible {
-  outline: none;
+.discover-page .filter-bar__fields--open{
+  animation:discover-filters 220ms ease-out both
 }
 
-.restaurant-card__photo {
-  min-height: 100%;
-  overflow: hidden;
-  background: var(--color-surface-muted);
+
 }
 
-.restaurant-card__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@keyframes discover-arrive{
+  from{
+  opacity:0;
+  transform:translateY(9px)
+}
+to{
+  opacity:1;
+  transform:translateY(0)
 }
 
-.restaurant-card__content {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  min-width: 0;
-  padding: var(--space-4);
 }
 
-.restaurant-card__number {
-  color: var(--color-accent);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+@keyframes discover-filters{
+  from{
+  opacity:0;
+  transform:translateY(-4px)
 }
+to{
+  opacity:1;
+  transform:translateY(0)
+}
 
-.restaurant-card h3 {
-  margin-top: var(--space-2);
-  font-size: clamp(1.5rem, 1.8vw, 1.9rem);
-  letter-spacing: -0.02em;
 }
+
+@media(max-width:980px){
 
-.restaurant-card__location,
-.restaurant-card__description {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  line-height: 1.45;
+.discover-opening{
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:0 2rem;
+  min-height:580px
 }
 
-.restaurant-card__location {
-  margin-top: var(--space-1);
+.discover-page .intro h1{
+  font-size:clamp(3.5rem,6.7vw,5.2rem)
 }
 
-.restaurant-card__description {
-  display: -webkit-box;
-  overflow: hidden;
-  margin-top: var(--space-3);
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+.discover-page .featured{
+  min-height:580px
 }
 
-.restaurant-card__bottom {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-2);
-  width: 100%;
-  margin-top: auto;
-  padding-top: var(--space-4);
-  font-size: 0.8125rem;
-  font-weight: 700;
+.discover-page .featured__photo{
+  min-height:300px
 }
 
-.restaurant-card__bottom span:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.discover-page .featured__content{
+  min-height:300px
 }
 
-.restaurant-card__dietary {
-  margin-top: var(--space-2);
-  color: var(--color-herb);
-  font-size: 0.75rem;
-  font-weight: 700;
+.discover-page .featured-section .section-heading__aside{
+  display:none
 }
 
-.restaurant-card__action {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  margin-top: var(--space-2);
-  color: var(--color-brand);
-  font-size: 0.875rem;
-  font-weight: 700;
+.discover-page .filter-bar__fields{
+  grid-template-columns:1fr
 }
 
-.empty-results {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  max-width: 37rem;
-  margin-inline: auto;
-  padding: clamp(2rem, 5vw, 4rem);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
+
 }
+
+@media(max-width:820px){
 
-.empty-results__mark {
-  color: var(--color-accent);
-  font-family: var(--font-editorial);
-  font-size: 2.7rem;
+.discover-opening,.discover-opening--filtered{
+  display:block;
+  min-height:0;
+  padding-top:2rem
 }
 
-.empty-results h3 {
-  margin-top: var(--space-2);
-  font-size: 2rem;
+.discover-page .intro{
+  padding:0 0 1.2rem
 }
 
-.empty-results p {
-  margin-top: var(--space-4);
-  color: var(--color-text-muted);
+.discover-page .intro h1,.discover-opening--filtered .intro h1{
+  max-width:none;
+  margin-top:1rem;
+  font-size:clamp(3.5rem,12vw,5.5rem)
 }
 
-.empty-results .primary-link {
-  margin-top: var(--space-6);
+.discover-page .intro h1 em{
+  display:inline
 }
 
-@media (max-width: 1100px) {
-  .restaurant-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.discover-page .intro__lead,.discover-opening--filtered .intro__lead{
+  max-width:40ch;
+  margin-top:1rem;
+  font-size:.98rem;
+  line-height:1.55
 }
 
-@media (max-width: 800px) {
-  .filter-bar {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    margin-bottom: var(--space-12);
-  }
+.discover-page .filter-bar{
+  margin-bottom:2rem;
+  padding-top:1rem
+}
 
-  .featured {
-    grid-template-columns: 1fr;
-  }
+.discover-page .featured-section{
+  min-height:0
+}
 
-  .featured__photo {
-    min-height: 330px;
-    max-height: 440px;
-  }
+.discover-page .featured{
+  min-height:0
+}
 
-  .featured__content {
-    min-height: 310px;
-  }
+.discover-page .featured__photo{
+  flex:none;
+  height:clamp(280px,65vw,430px);
+  min-height:0
+}
 
-  .featured__content h3 {
-    margin-top: var(--space-4);
-  }
+.discover-page .featured__content{
+  min-height:0;
+  padding:1.5rem
+}
 
-  .featured__facts {
-    margin-top: var(--space-4);
-  }
+.discover-page .featured__watermark{
+  font-size:9rem
+}
 
+.discover-page .featured__content h3{
+  font-size:clamp(2.8rem,8vw,4rem)
 }
 
-@media (max-width: 620px) {
-  .intro {
-    display: block;
-    padding-block: var(--space-8) var(--space-6);
-  }
+.discover-page .featured-section>.section-heading{
+  top:1.25rem;
+  right:1.25rem;
+  left:1.25rem
+}
 
-  .intro h1 {
-    margin-top: var(--space-4);
-  }
+.discover-page .featured__photo-label{
+  right:1.25rem;
+  bottom:1.25rem
+}
 
-  .intro__lead {
-    margin-top: var(--space-4);
-    padding: 0;
-    font-size: 0.9rem;
-  }
+.discover-page .restaurants-section{
+  margin-top:3.5rem
+}
 
-  .filter-bar {
-    margin-block: var(--space-6) var(--space-8);
-    padding: var(--space-3);
-  }
+.discover-page .restaurants-section__heading{
+  align-items:start;
+  flex-direction:column;
+  gap:.5rem
+}
 
-  .filter-bar__top {
-    display: flex;
-    align-items: end;
-    gap: var(--space-2);
-  }
+.discover-page .restaurant-grid,.discover-page .restaurant-grid--filtered,.discover-page .restaurant-grid--single{
+  grid-template-columns:1fr;
+  gap:2.5rem
+}
 
-  .search-field {
-    flex: 1;
-  }
+.discover-page .restaurant-card,.discover-page .restaurant-card:nth-child(2),.discover-page .restaurant-card:nth-child(3){
+  grid-column:auto;
+  padding-top:0
+}
 
-  .search-field label {
-    font-size: 0.75rem;
-  }
+.discover-page .restaurant-card:nth-child(3) .restaurant-card__link{
+  display:block;
+  background:transparent
+}
 
-  .search-field__control {
-    padding-inline: var(--space-3);
-  }
+.discover-page .restaurant-card__photo,.discover-page .restaurant-card:nth-child(2) .restaurant-card__photo,.discover-page .restaurant-card:nth-child(3) .restaurant-card__photo,.discover-page .restaurant-grid--filtered .restaurant-card__photo{
+  height:clamp(280px,70vw,420px)
+}
 
-  .search-field input {
-    font-size: 0.875rem;
-  }
+.discover-page .restaurant-card:nth-child(3) .restaurant-card__content{
+  padding:1.2rem 0 0
+}
 
-  .filter-bar__toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-2);
-    flex: none;
-    min-height: calc(var(--touch-target) + 2px);
-    padding-inline: var(--space-3);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-surface-muted);
-    color: var(--color-brand);
-    font-size: 0.875rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
+.discover-page .restaurant-card h3{
+  font-size:2.65rem
+}
 
-  .filter-bar__fields {
-    display: none;
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
 
-  .filter-bar__fields--open {
-    display: grid;
-  }
+}
 
-  .section-heading {
-    align-items: start;
-  }
+@media(max-width:430px){
 
-  .section-heading__aside {
-    display: none;
-  }
+.discover-opening{
+  padding-top:1.5rem
+}
 
-  .featured-section {
-    margin-bottom: var(--space-12);
-  }
+.discover-page .intro h1,.discover-opening--filtered .intro h1{
+  font-size:clamp(3.25rem,12.5vw,3.7rem)
+}
 
-  .featured__photo {
-    min-height: 230px;
-    max-height: 230px;
-  }
+.discover-page .intro__lead{
+  font-size:.91rem
+}
 
-  .featured__photo-label {
-    right: var(--space-4);
-    bottom: var(--space-4);
-    left: var(--space-4);
-  }
+.discover-page .filter-bar__top{
+  gap:.5rem
+}
 
-  .featured__content {
-    min-height: 0;
-    padding: var(--space-6);
-  }
+.discover-page .filter-bar__toggle{
+  padding-inline:.6rem;
+  font-size:.8rem
+}
 
-  .featured__content h3 {
-    font-size: 2.6rem;
-  }
+.discover-page .search-field input{
+  font-size:.86rem
+}
 
-  .featured__facts {
-    padding-block: var(--space-6);
-  }
+.discover-page .search-field input::placeholder{
+  color:#776c66
+}
 
-  .restaurant-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
+.discover-page .featured__content h3{
+  font-size:2.8rem
+}
 
-  .restaurant-card__link {
-    grid-template-columns: 1fr;
-  }
+.discover-page .featured__watermark{
+  font-size:7.5rem
+}
 
-  .restaurant-card__photo {
-    height: 190px;
-    min-height: 0;
-  }
+.discover-page .featured__facts{
+  font-size:.75rem
+}
 
-  .restaurant-card__description {
-    display: -webkit-box;
-  }
+.discover-page .restaurant-card__photo,.discover-page .restaurant-card:nth-child(2) .restaurant-card__photo,.discover-page .restaurant-card:nth-child(3) .restaurant-card__photo{
+  height:300px
+}
 
-  .restaurant-card__content {
-    padding: var(--space-5);
-  }
+.discover-page .results-context{
+  align-items:start;
+  flex-direction:column;
+  gap:0
+}
 
-  .restaurant-card h3 {
-    font-size: 1.7rem;
-  }
 
-  .restaurant-card__bottom {
-    margin-top: var(--space-4);
-    padding-top: var(--space-2);
-  }
+}
 
-  .restaurant-card__action {
-    margin-top: var(--space-2);
-  }
+@media(max-width:370px){
 
-  .results-context {
-    align-items: start;
-    flex-direction: column;
-    gap: 0;
-  }
+.discover-page .intro h1{
+  font-size:3.15rem
+}
 
-  .results-count {
-    padding-top: var(--space-2);
-    white-space: normal;
-  }
+.discover-page .search-field input::placeholder{
+  font-size:.78rem
+}
 
+.discover-page .featured-section .section-heading h2{
+  font-size:1.4rem
 }
 
-@media (max-width: 380px) {
-  .filter-bar__toggle {
-    padding-inline: var(--space-2);
-  }
+.discover-page .featured__photo{
+  height:260px
+}
 
-  .search-field input::placeholder {
-    font-size: 0.875rem;
-  }
 
-  .featured__content {
-    padding: var(--space-4);
-  }
 }

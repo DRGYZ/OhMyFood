@@ -49,31 +49,36 @@ export function DiscoverPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content">
+      <main id="main-content" className="discover-page">
         <div className="page-shell">
-          <section className="intro" aria-labelledby="discover-title">
-            <div>
-              <p className="eyebrow">
-                <span className="eyebrow__line" aria-hidden="true" />
-                Guide des tables · Paris
+          <div className={
+            "discover-opening" +
+            (hasActiveFilters ? " discover-opening--filtered" : "")
+          }>
+            <section className="intro" aria-labelledby="discover-title">
+              <div>
+                <p className="eyebrow">
+                  <span className="eyebrow__line" aria-hidden="true" />
+                  Guide des tables · Paris
+                </p>
+                <h1 id="discover-title">
+                  À table, <em>Paris.</em>
+                </h1>
+              </div>
+              <p className="intro__lead">
+                Quatre adresses, quatre façons de savourer la ville. Trouvez celle
+                qui vous ressemble.
               </p>
-              <h1 id="discover-title">
-                À table, <em>Paris.</em>
-              </h1>
-            </div>
-            <p className="intro__lead">
-              Quatre adresses, quatre façons de savourer la ville. Trouvez celle
-              qui vous ressemble.
-            </p>
-          </section>
+            </section>
 
-          <FilterBar
-            filters={filters}
-            onSearchChange={(q) => changeFilters({ q }, "replace")}
-            onFilterChange={(patch) => changeFilters(patch, "push")}
-          />
+            <FilterBar
+              filters={filters}
+              onSearchChange={(q) => changeFilters({ q }, "replace")}
+              onFilterChange={(patch) => changeFilters(patch, "push")}
+            />
 
-          {featured && <FeaturedRestaurant restaurant={featured} />}
+            {featured && <FeaturedRestaurant restaurant={featured} />}
+          </div>
 
           <section
             className="restaurants-section"
@@ -132,7 +137,13 @@ export function DiscoverPage() {
                 </button>
               </div>
             ) : (
-              <div className={"restaurant-grid" + (listing.length === 1 ? " restaurant-grid--single" : "")}>
+              <div
+                className={
+                  "restaurant-grid" +
+                  (hasActiveFilters ? " restaurant-grid--filtered" : "") +
+                  (listing.length === 1 ? " restaurant-grid--single" : "")
+                }
+              >
                 {listing.map((restaurant, index) => (
                   <RestaurantCard
                     key={restaurant.id}

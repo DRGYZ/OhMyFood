@@ -30,6 +30,7 @@ export function FeaturedRestaurant({ restaurant }: FeaturedRestaurantProps) {
           <span className="featured__photo-label">Paris {restaurant.neighborhood} · {restaurant.area}</span>
         </div>
         <div className="featured__content">
+          <span className="featured__watermark" aria-hidden="true">01</span>
           <span className="eyebrow">01 / Les tables de Paris</span>
           <h3>{restaurant.name}</h3>
           <p className="featured__description">{restaurant.description}</p>
