@@ -7,6 +7,7 @@ import {
   dietaryLabel,
   restaurantById,
   restaurantBySlug,
+  restaurants,
   type Restaurant,
 } from "../data/restaurants";
 import { useSelection } from "../selection/SelectionContext";
@@ -91,15 +92,19 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }: MenuItemCardProps) {
 }
 
 interface MenuSectionProps {
+  index: number;
   section: MenuSectionData;
   quantities: Record<string, number>;
   onChange: (item: MenuItem, action: "add" | "remove") => void;
 }
 
-function MenuSection({ section, quantities, onChange }: MenuSectionProps) {
+function MenuSection({ section, index, quantities, onChange }: MenuSectionProps) {
   return (
     <section className="menu-section" aria-labelledby={section.id}>
       <div className="menu-section__heading">
+        <span className="menu-section__number" aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </span>
         <div>
           <p className="eyebrow">La carte</p>
           <h2 id={section.id}>{section.name}</h2>
@@ -219,6 +224,7 @@ export function RestaurantPage() {
     );
   }
 
+  const restaurantNumber = String(restaurants.indexOf(restaurant) + 1).padStart(2, "0");
   const restaurantId = restaurant.id;
   const quantities = state.restaurantId === restaurantId ? state.quantities : {};
 
@@ -255,7 +261,7 @@ export function RestaurantPage() {
             <span aria-hidden="true">/</span>
             <span aria-current="page">{restaurant.name}</span>
           </nav>
-          <div className="restaurant-hero">
+          <div className="restaurant-hero" data-restaurant={restaurant.id}>
             <div className="restaurant-hero__photo">
               <img
                 src={restaurant.image.src}
@@ -266,6 +272,7 @@ export function RestaurantPage() {
               />
             </div>
             <div className="restaurant-hero__content">
+              <span className="restaurant-hero__number" aria-hidden="true">{restaurantNumber}</span>
               <p className="eyebrow">Une table de Paris · {restaurant.area}</p>
               <h1>{restaurant.name}</h1>
               <p className="restaurant-hero__description">{restaurant.description}</p>
@@ -291,9 +298,10 @@ export function RestaurantPage() {
                 <h2>La carte</h2>
                 <p>Choisissez vos plats pour poursuivre votre réservation.</p>
               </div>
-              {restaurant.menu.map((section) => (
+              {restaurant.menu.map((section, index) => (
                 <MenuSection
                   key={section.id}
+                  index={index}
                   section={section}
                   quantities={quantities}
                   onChange={changeItem}
