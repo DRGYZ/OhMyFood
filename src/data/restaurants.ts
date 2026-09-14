@@ -3,7 +3,7 @@ import type { MenuSection } from "../restaurant/types";
 import paletteImage from "../assets/restaurants/palette.jpg";
 import noteImage from "../assets/restaurants/note.jpg";
 import francaiseImage from "../assets/restaurants/francaise.jpg";
-import deliceImage from "../assets/restaurants/delice.png";
+import deliceImage from "../assets/restaurants/delice.jpg";
 
 export const cuisineOptions = [
   { value: "bistronomie", label: "Bistronomie" },
@@ -123,9 +123,9 @@ export const restaurants: Restaurant[] = [
       "Une cuisine vive et soignée, pensée pour les curieux du 20e.",
     image: {
       src: deliceImage,
-      alt: "Plat de poisson présenté dans une assiette rectangulaire",
-      width: 340,
-      height: 174,
+      alt: "Filet de poisson rôti et légumes de saison dans une assiette en céramique",
+      width: 1200,
+      height: 800,
     },
     priceLevel: 3,
     dietaryOptions: ["sans-gluten"],

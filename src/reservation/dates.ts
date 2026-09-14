@@ -31,3 +31,14 @@ export function weekdayForDate(value: string): number {
   const [year, month, day] = value.split("-").map(Number);
   return new Date(year, month - 1, day, 12).getDay();
 }
+
+export function formatFrenchDate(value: string): string {
+  if (!isCalendarDate(value)) return "";
+  const [year, month, day] = value.split("-").map(Number);
+  return new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(year, month - 1, day, 12));
+}

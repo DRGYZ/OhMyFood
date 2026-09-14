@@ -1,9 +1,11 @@
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import { restaurantBySlug } from "../data/restaurants";
 import { SiteFooter } from "../layout/SiteFooter";
 import { SiteHeader } from "../layout/SiteHeader";
 import { SimplePage } from "../SimplePage";
+import { discoverReturnTo } from "../navigation/discoverReturn";
 import { browserConfirmationStorage, readConfirmation } from "./confirmation";
+import { formatFrenchDate } from "./dates";
 
 const euro = new Intl.NumberFormat("fr-FR", {
   style: "currency",
@@ -11,18 +13,10 @@ const euro = new Intl.NumberFormat("fr-FR", {
   maximumFractionDigits: 0,
 });
 
-function displayDate(value: string): string {
-  const [year, month, day] = value.split("-").map(Number);
-  return new Intl.DateTimeFormat("fr-FR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(year, month - 1, day, 12));
-}
-
 export function ConfirmationPage() {
   const { slug } = useParams();
+  const location = useLocation();
+  const returnTo = discoverReturnTo(location.state);
   const restaurant = slug ? restaurantBySlug(slug) : undefined;
 
   if (!restaurant) {
@@ -63,9 +57,9 @@ export function ConfirmationPage() {
       <SiteHeader />
       <main id="main-content" className="booking-page page-shell">
         <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
-          <Link to="/#restaurants">Les tables</Link>
+          <Link to={returnTo}>Les tables</Link>
           <span aria-hidden="true">/</span>
-          <Link to={menuUrl}>{restaurant.name}</Link>
+          <Link to={menuUrl} state={{ discoverReturnTo: returnTo }}>{restaurant.name}</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Confirmation</span>
         </nav>
@@ -83,7 +77,7 @@ export function ConfirmationPage() {
               <h2 id="confirmation-visit-title">Le rendez-vous</h2>
               <dl className="confirmation__facts">
                 <div><dt>Restaurant</dt><dd>{snapshot.restaurantName}</dd></div>
-                <div><dt>Date</dt><dd>{displayDate(snapshot.date)}</dd></div>
+                <div><dt>Date</dt><dd>{formatFrenchDate(snapshot.date)}</dd></div>
                 <div><dt>Heure</dt><dd>{snapshot.time}</dd></div>
                 <div><dt>Convives</dt><dd>{snapshot.partySize} {snapshot.partySize === 1 ? "personne" : "personnes"}</dd></div>
               </dl>
@@ -107,7 +101,7 @@ export function ConfirmationPage() {
           </div>
           <div className="confirmation-actions">
             <Link className="primary-link" to="/">Découvrir les tables <span aria-hidden="true">↗</span></Link>
-            <Link to={menuUrl}>Voir {restaurant.name}</Link>
+            <Link to={menuUrl} state={{ discoverReturnTo: returnTo }}>Voir {restaurant.name}</Link>
           </div>
         </div>
       </main>

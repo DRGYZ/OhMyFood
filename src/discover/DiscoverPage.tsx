@@ -32,6 +32,11 @@ export function DiscoverPage() {
     setSearchParams(filtersToSearchParams(next), { replace: mode === "replace" });
   }
 
+  function resetFilters() {
+    changeFilters(emptyFilters, "push");
+    document.getElementById("restaurant-search")?.focus();
+  }
+
   const filtered = filterRestaurants(restaurants, filters);
   const hasActiveFilters = Object.values(filters).some((value) => value.trim());
   const featured = !hasActiveFilters
@@ -101,7 +106,7 @@ export function DiscoverPage() {
                 <button
                   type="button"
                   className="text-button"
-                  onClick={() => changeFilters(emptyFilters, "push")}
+                  onClick={resetFilters}
                 >
                   Effacer les filtres
                 </button>
@@ -121,7 +126,7 @@ export function DiscoverPage() {
                 <button
                   type="button"
                   className="primary-link"
-                  onClick={() => changeFilters(emptyFilters, "push")}
+                  onClick={resetFilters}
                 >
                   Réinitialiser la recherche
                 </button>

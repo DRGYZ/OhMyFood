@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { cuisineLabel, type Restaurant } from "../../data/restaurants";
 
 interface FeaturedRestaurantProps {
@@ -6,6 +6,7 @@ interface FeaturedRestaurantProps {
 }
 
 export function FeaturedRestaurant({ restaurant }: FeaturedRestaurantProps) {
+  const location = useLocation();
   return (
     <section className="featured-section" aria-labelledby="featured-title">
       <div className="section-heading">
@@ -40,6 +41,7 @@ export function FeaturedRestaurant({ restaurant }: FeaturedRestaurantProps) {
           <Link
             className="primary-link"
             to={"/restaurants/" + restaurant.slug}
+            state={{ discoverReturnTo: "/" + location.search + "#restaurants" }}
           >
             Voir la fiche <span aria-hidden="true">↗</span>
           </Link>

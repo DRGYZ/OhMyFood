@@ -50,6 +50,10 @@
   font-size: var(--text-small);
 }
 
+.booking-summary__compact {
+  display: none;
+}
+
 .booking-summary__list,
 .confirmation__dishes {
   display: grid;
@@ -162,6 +166,13 @@
 .booking-field input[aria-invalid="true"],
 .booking-field select[aria-invalid="true"] {
   border-color: var(--color-accent);
+}
+
+.booking-date-echo {
+  margin-top: var(--space-2);
+  color: var(--color-herb);
+  font-size: var(--text-small);
+  font-weight: 700;
 }
 
 .booking-hint {
@@ -412,4 +423,49 @@
     flex-direction: column;
     gap: var(--space-4);
   }
+}
+
+@media (max-width: 47.99rem) {
+  .booking-summary__compact {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    font-size: var(--text-small);
+  }
+
+  .booking-summary__compact button {
+    justify-self: start;
+    min-height: var(--touch-target);
+    padding: 0;
+    border: 0;
+    color: var(--color-brand);
+    background: transparent;
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .booking-summary__details {
+    display: none;
+  }
+
+  .booking-summary__details--expanded {
+    display: block;
+  }
+
+  .booking-summary__list {
+    margin-top: var(--space-4);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .booking-times__grid {
+    animation: booking-slots-in 150ms ease-out both;
+  }
+}
+
+@keyframes booking-slots-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

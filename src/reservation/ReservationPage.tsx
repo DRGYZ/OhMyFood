@@ -1,19 +1,21 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { restaurantBySlug, type Restaurant } from "../data/restaurants";
 import { SiteFooter } from "../layout/SiteFooter";
 import { SiteHeader } from "../layout/SiteHeader";
 import { useSelection } from "../selection/SelectionContext";
 import { summarizeSelection, type SelectedDish } from "../selection/selection";
 import { SimplePage } from "../SimplePage";
+import { discoverReturnTo } from "../navigation/discoverReturn";
 import { getAvailability } from "./availability";
-import { bookingWindow, isBookingDate } from "./dates";
+import { bookingWindow, formatFrenchDate, isBookingDate } from "./dates";
 import {
   browserConfirmationStorage,
   createConfirmationSnapshot,
   saveConfirmation,
 } from "./confirmation";
 import {
+  firstInvalidField,
   validateReservation,
   type ReservationErrors,
   type ReservationField,
@@ -30,40 +32,48 @@ type AvailabilityState =
   | { status: "initial" | "loading" | "empty" | "error"; key: string }
   | { status: "success"; key: string; times: string[] };
 
-const fieldOrder: ReservationField[] = [
-  "partySize", "date", "time", "firstName", "lastName", "email", "phone",
-];
-
 function MenuReview({
   restaurant,
   dishes,
   itemCount,
   subtotal,
+  returnTo,
 }: {
   restaurant: Restaurant;
   dishes: SelectedDish[];
   itemCount: number;
   subtotal: number;
+  returnTo: string;
 }) {
+  const [expanded, setExpanded] = useState(false);
   return (
     <aside className="booking-summary" aria-labelledby="booking-summary-title">
       <p className="eyebrow">Votre moment à table</p>
       <h2 id="booking-summary-title">Votre menu</h2>
       <p className="booking-summary__restaurant">{restaurant.name} · Paris {restaurant.neighborhood}</p>
-      <ul className="booking-summary__list">
-        {dishes.map(({ item, quantity, lineTotal }) => (
-          <li key={item.id}>
-            <span><strong>{quantity} ×</strong> {item.name}</span>
-            <strong>{euro.format(lineTotal)}</strong>
-          </li>
-        ))}
-      </ul>
-      <div className="booking-summary__total">
-        <span>Sous-total · {itemCount} {itemCount === 1 ? "plat" : "plats"}</span>
-        <strong>{euro.format(subtotal)}</strong>
+      <div className="booking-summary__compact">
+        <strong>Menu composé · {itemCount} {itemCount === 1 ? "plat" : "plats"} · {euro.format(subtotal)}</strong>
+        <button type="button" aria-expanded={expanded} aria-controls="booking-summary-details"
+          onClick={() => setExpanded((current) => !current)}>
+          {expanded ? "Masquer le détail" : "Voir le détail"}
+        </button>
       </div>
-      <Link to={"/restaurants/" + restaurant.slug}>Modifier mon menu <span aria-hidden="true">↗</span></Link>
-      <p className="booking-summary__note">Le règlement se fait au restaurant.</p>
+      <div id="booking-summary-details" className={"booking-summary__details" + (expanded ? " booking-summary__details--expanded" : "")}>
+        <ul className="booking-summary__list">
+          {dishes.map(({ item, quantity, lineTotal }) => (
+            <li key={item.id}>
+              <span><strong>{quantity} ×</strong> {item.name}</span>
+              <strong>{euro.format(lineTotal)}</strong>
+            </li>
+          ))}
+        </ul>
+        <div className="booking-summary__total">
+          <span>Sous-total · {itemCount} {itemCount === 1 ? "plat" : "plats"}</span>
+          <strong>{euro.format(subtotal)}</strong>
+        </div>
+        <p className="booking-summary__note">Le règlement se fait au restaurant.</p>
+      </div>
+      <Link to={"/restaurants/" + restaurant.slug} state={{ discoverReturnTo: returnTo }}>Modifier mon menu <span aria-hidden="true">↗</span></Link>
     </aside>
   );
 }
@@ -80,6 +90,8 @@ function ReservationExperience({
   subtotal: number;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo = discoverReturnTo(location.state);
   const { dispatch } = useSelection();
   const [fields, setFields] = useState<ReservationFields>({
     partySize: 2,
@@ -154,10 +166,14 @@ function ReservationExperience({
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
       setFormMessage("Corrigez les champs indiqués pour confirmer votre réservation.");
-      const first = fieldOrder.find((field) => nextErrors[field]);
+      const first = firstInvalidField(nextErrors);
       if (first) {
         window.requestAnimationFrame(() => {
-          document.getElementById("reservation-" + first)?.focus();
+          const target = first === "time"
+            ? document.querySelector<HTMLInputElement>(".booking-times input[type=radio]") ??
+              document.getElementById("reservation-time")
+            : document.getElementById("reservation-" + first);
+          target?.focus();
         });
       }
       return;
@@ -169,7 +185,7 @@ function ReservationExperience({
       return;
     }
     dispatch({ type: "clear" });
-    navigate("/restaurants/" + restaurant.slug + "/confirmation");
+    navigate("/restaurants/" + restaurant.slug + "/confirmation", { state: { discoverReturnTo: returnTo } });
   }
 
   return (
@@ -177,9 +193,9 @@ function ReservationExperience({
       <SiteHeader />
       <main id="main-content" className="booking-page page-shell">
         <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
-          <Link to="/#restaurants">Les tables</Link>
+          <Link to={returnTo}>Les tables</Link>
           <span aria-hidden="true">/</span>
-          <Link to={"/restaurants/" + restaurant.slug}>{restaurant.name}</Link>
+          <Link to={"/restaurants/" + restaurant.slug} state={{ discoverReturnTo: returnTo }}>{restaurant.name}</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Réservation</span>
         </nav>
@@ -189,7 +205,7 @@ function ReservationExperience({
           <p>Votre menu est composé. Trouvons une table, puis gardons vos coordonnées pour la réservation.</p>
         </div>
         <div className="booking-layout">
-          <MenuReview restaurant={restaurant} dishes={dishes} itemCount={itemCount} subtotal={subtotal} />
+          <MenuReview restaurant={restaurant} dishes={dishes} itemCount={itemCount} subtotal={subtotal} returnTo={returnTo} />
           <form className="booking-form" onSubmit={submit} noValidate>
             <section className="booking-section" aria-labelledby="booking-details-title">
               <div className="booking-section__heading">
@@ -228,6 +244,7 @@ function ReservationExperience({
                     aria-describedby={errors.date ? "reservation-date-hint reservation-date-error" : "reservation-date-hint"}
                   />
                   <p className="booking-hint" id="reservation-date-hint">Aujourd'hui et les 30 prochains jours.</p>
+                  {canFetch && <p className="booking-date-echo">Date choisie : {formatFrenchDate(fields.date)}</p>}
                   {errors.date && <p className="booking-error" id="reservation-date-error">{errors.date}</p>}
                 </div>
               </div>
@@ -339,6 +356,8 @@ function ReservationExperience({
 
 export function ReservationPage() {
   const { slug } = useParams();
+  const location = useLocation();
+  const returnTo = discoverReturnTo(location.state);
   const restaurant = slug ? restaurantBySlug(slug) : undefined;
   const { state } = useSelection();
 
@@ -359,9 +378,9 @@ export function ReservationPage() {
         <SiteHeader />
         <main id="main-content" className="booking-page booking-page--empty page-shell">
           <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
-            <Link to="/#restaurants">Les tables</Link>
+            <Link to={returnTo}>Les tables</Link>
             <span aria-hidden="true">/</span>
-            <Link to={"/restaurants/" + restaurant.slug}>{restaurant.name}</Link>
+            <Link to={"/restaurants/" + restaurant.slug} state={{ discoverReturnTo: returnTo }}>{restaurant.name}</Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page">Réservation</span>
           </nav>
@@ -369,7 +388,7 @@ export function ReservationPage() {
             <p className="eyebrow">Votre expérience · {restaurant.name}</p>
             <h1>Composez d'abord votre menu</h1>
             <p>Choisissez au moins un plat chez {restaurant.name} avant de réserver votre table.</p>
-            <Link className="primary-link" to={"/restaurants/" + restaurant.slug}>
+            <Link className="primary-link" to={"/restaurants/" + restaurant.slug} state={{ discoverReturnTo: returnTo }}>
               Retour à la carte <span aria-hidden="true">↗</span>
             </Link>
           </div>

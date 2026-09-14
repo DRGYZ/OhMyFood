@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import { SiteHeader } from "../layout/SiteHeader";
 import { SiteFooter } from "../layout/SiteFooter";
 import {
@@ -12,6 +12,7 @@ import {
 import { useSelection } from "../selection/SelectionContext";
 import { MAX_QUANTITY, selectionStatus, summarizeSelection } from "../selection/selection";
 import { SimplePage } from "../SimplePage";
+import { discoverReturnTo } from "../navigation/discoverReturn";
 import type { MenuItem, MenuSection as MenuSectionData } from "./types";
 
 const euro = new Intl.NumberFormat("fr-FR", {
@@ -121,7 +122,7 @@ function MenuSection({ section, quantities, onChange }: MenuSectionProps) {
   );
 }
 
-function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onClear: () => void }) {
+function SelectionSummary({ restaurant, onClear, returnTo }: { restaurant: Restaurant; onClear: () => void; returnTo: string }) {
   const { state } = useSelection();
   const { dishes, itemCount, subtotal } = summarizeSelection(
     state,
@@ -156,7 +157,7 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
           <strong>{euro.format(subtotal)}</strong>
         </div>
         {itemCount > 0 ? (
-          <Link className="selection-panel__continue" to={"/restaurants/" + restaurant.slug + "/reservation"}>
+          <Link className="selection-panel__continue" to={"/restaurants/" + restaurant.slug + "/reservation"} state={{ discoverReturnTo: returnTo }}>
             Préparer ma réservation <span aria-hidden="true">↗</span>
           </Link>
         ) : (
@@ -178,7 +179,7 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
             <strong>{itemCount} {itemCount === 1 ? "plat" : "plats"}</strong>
             <span>{euro.format(subtotal)}</span>
           </div>
-          <Link to={"/restaurants/" + restaurant.slug + "/reservation"} aria-label={"Voir ma sélection : " + itemCount + " " + (itemCount === 1 ? "plat" : "plats") + ", " + euro.format(subtotal)}>
+          <Link to={"/restaurants/" + restaurant.slug + "/reservation"} state={{ discoverReturnTo: returnTo }} aria-label={"Voir ma sélection : " + itemCount + " " + (itemCount === 1 ? "plat" : "plats") + ", " + euro.format(subtotal)}>
             Continuer <span aria-hidden="true">↗</span>
           </Link>
         </div>
@@ -189,6 +190,8 @@ function SelectionSummary({ restaurant, onClear }: { restaurant: Restaurant; onC
 
 export function RestaurantPage() {
   const { slug } = useParams();
+  const location = useLocation();
+  const returnTo = discoverReturnTo(location.state);
   const restaurant = slug ? restaurantBySlug(slug) : undefined;
   const { state, dispatch } = useSelection();
   const [announcement, setAnnouncement] = useState("");
@@ -248,7 +251,7 @@ export function RestaurantPage() {
       <main id="main-content" className="restaurant-page">
         <div className="page-shell">
           <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
-            <Link to="/#restaurants">Les tables</Link>
+            <Link to={returnTo}>Les tables</Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{restaurant.name}</span>
           </nav>
@@ -299,6 +302,7 @@ export function RestaurantPage() {
             </div>
             <SelectionSummary
               restaurant={restaurant}
+              returnTo={returnTo}
               onClear={() => {
                 dispatch({ type: "clear" });
                 setAnnouncement("Sélection effacée.");

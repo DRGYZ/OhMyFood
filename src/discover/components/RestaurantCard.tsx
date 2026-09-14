@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import {
   cuisineLabel,
   dietaryLabel,
@@ -11,11 +11,13 @@ interface RestaurantCardProps {
 }
 
 export function RestaurantCard({ restaurant, index }: RestaurantCardProps) {
+  const location = useLocation();
   return (
     <article className="restaurant-card">
       <Link
         className="restaurant-card__link"
         to={"/restaurants/" + restaurant.slug}
+        state={{ discoverReturnTo: "/" + location.search + "#restaurants" }}
         aria-label={"Voir la fiche de " + restaurant.name}
       >
         <div className="restaurant-card__photo">

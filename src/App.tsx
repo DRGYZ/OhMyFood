@@ -1,5 +1,5 @@
 import { HashRouter, Route, Routes, useLocation } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { DiscoverPage } from "./discover/DiscoverPage";
 import { RestaurantPage } from "./restaurant/RestaurantPage";
 import { ReservationPage } from "./reservation/ReservationPage";
@@ -10,6 +10,29 @@ import "./layout/layout.css";
 import "./discover/discover.css";
 import "./restaurant/restaurant.css";
 import "./reservation/reservation.css";
+
+function RouteFocusManager() {
+  const location = useLocation();
+  const previousPathname = useRef(location.pathname);
+
+  useEffect(() => {
+    if (previousPathname.current === location.pathname) return;
+    previousPathname.current = location.pathname;
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = location.pathname === "/" && location.hash === "#restaurants"
+        ? document.getElementById("restaurants-title")
+        : document.querySelector<HTMLElement>("#main-content h1") ??
+          document.getElementById("main-content");
+      if (!target) return;
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
+
+  return null;
+}
 
 function ScrollManager() {
   const location = useLocation();
@@ -30,6 +53,7 @@ export function App() {
     <HashRouter>
       <SelectionProvider>
         <ScrollManager />
+        <RouteFocusManager />
         <Routes>
           <Route path="/" element={<DiscoverPage />} />
           <Route path="/restaurants/:slug" element={<RestaurantPage />} />

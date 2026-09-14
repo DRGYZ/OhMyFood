@@ -13,6 +13,14 @@ export interface ReservationFields {
 export type ReservationField = keyof ReservationFields;
 export type ReservationErrors = Partial<Record<ReservationField, string>>;
 
+const fieldOrder: ReservationField[] = [
+  "partySize", "date", "time", "firstName", "lastName", "email", "phone",
+];
+
+export function firstInvalidField(errors: ReservationErrors): ReservationField | undefined {
+  return fieldOrder.find((field) => !!errors[field]);
+}
+
 export function validateReservation(
   fields: ReservationFields,
   availableTimes: string[],
