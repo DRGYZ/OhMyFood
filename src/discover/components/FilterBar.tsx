@@ -60,7 +60,7 @@ export function FilterBar({
         className={"filter-bar__fields" + (expanded ? " filter-bar__fields--open" : "")}
         id="discover-filters"
       >
-        <label className="select-field">
+        <label className="select-field" data-selected={Boolean(filters.cuisine)}>
           <span>Cuisine</span>
           <select
             value={filters.cuisine}
@@ -74,7 +74,7 @@ export function FilterBar({
             ))}
           </select>
         </label>
-        <label className="select-field">
+        <label className="select-field" data-selected={Boolean(filters.neighborhood)}>
           <span>Quartier</span>
           <select
             value={filters.neighborhood}
@@ -90,7 +90,7 @@ export function FilterBar({
             ))}
           </select>
         </label>
-        <label className="select-field">
+        <label className="select-field" data-selected={Boolean(filters.dietary)}>
           <span>Préférences</span>
           <select
             value={filters.dietary}
