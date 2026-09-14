@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { restaurantBySlug, type Restaurant } from "../data/restaurants";
 import { SiteFooter } from "../layout/SiteFooter";
@@ -6,6 +6,7 @@ import { SiteHeader } from "../layout/SiteHeader";
 import { useSelection } from "../selection/SelectionContext";
 import { summarizeSelection, type SelectedDish } from "../selection/selection";
 import { SimplePage } from "../SimplePage";
+import { useScrollReveal } from "../motion/useScrollReveal";
 import { discoverReturnTo } from "../navigation/discoverReturn";
 import { getAvailability } from "./availability";
 import { bookingWindow, formatFrenchDate, isBookingDate } from "./dates";
@@ -47,8 +48,9 @@ function MenuReview({
 }) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <aside className="booking-summary" aria-labelledby="booking-summary-title">
-      <p className="eyebrow">Votre moment à table</p>
+    <aside className="booking-summary" aria-labelledby="booking-summary-title" data-scroll-reveal>
+      <span className="booking-summary__number" aria-hidden="true">01</span>
+      <p className="eyebrow">01 / Votre table</p>
       <h2 id="booking-summary-title">Votre menu</h2>
       <p className="booking-summary__restaurant">{restaurant.name} · Paris {restaurant.neighborhood}</p>
       <div className="booking-summary__compact">
@@ -90,6 +92,8 @@ function ReservationExperience({
   subtotal: number;
 }) {
   const navigate = useNavigate();
+  const pageRef = useRef<HTMLElement>(null);
+  useScrollReveal(pageRef, restaurant.slug);
   const location = useLocation();
   const returnTo = discoverReturnTo(location.state);
   const { dispatch } = useSelection();
@@ -191,7 +195,7 @@ function ReservationExperience({
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="booking-page page-shell">
+      <main id="main-content" className="booking-page booking-page--reservation page-shell" ref={pageRef}>
         <nav className="restaurant-breadcrumb" aria-label="Fil d'Ariane">
           <Link to={returnTo}>Les tables</Link>
           <span aria-hidden="true">/</span>
@@ -199,17 +203,23 @@ function ReservationExperience({
           <span aria-hidden="true">/</span>
           <span aria-current="page">Réservation</span>
         </nav>
-        <div className="booking-intro">
-          <p className="eyebrow">Votre expérience · {restaurant.name}</p>
-          <h1>Choisissez votre moment</h1>
-          <p>Votre menu est composé. Trouvons une table, puis gardons vos coordonnées pour la réservation.</p>
-        </div>
+        <header className="booking-intro" data-scroll-reveal>
+          <div className="booking-intro__copy">
+            <p className="eyebrow">Les tables de Paris / Réservation</p>
+            <h1>Votre table chez <em>{restaurant.name}</em></h1>
+            <p>Votre menu est composé. Choisissez le moment qui vous convient, puis laissez-nous vos coordonnées.</p>
+            <p className="booking-intro__place">Paris {restaurant.neighborhood} <span aria-hidden="true">·</span> {restaurant.area}</p>
+          </div>
+          <div className="booking-intro__image">
+            <img src={restaurant.image.src} alt="" width={restaurant.image.width} height={restaurant.image.height} />
+          </div>
+        </header>
         <div className="booking-layout">
           <MenuReview restaurant={restaurant} dishes={dishes} itemCount={itemCount} subtotal={subtotal} returnTo={returnTo} />
           <form className="booking-form" onSubmit={submit} noValidate>
-            <section className="booking-section" aria-labelledby="booking-details-title">
+            <section className="booking-section" aria-labelledby="booking-details-title" data-scroll-reveal>
               <div className="booking-section__heading">
-                <span aria-hidden="true">01</span>
+                <span aria-hidden="true">02</span>
                 <div>
                   <p className="eyebrow">Votre venue</p>
                   <h2 id="booking-details-title">Date & convives</h2>
@@ -249,15 +259,15 @@ function ReservationExperience({
                 </div>
               </div>
             </section>
-            <section className="booking-section" aria-labelledby="booking-time-title">
+            <section className="booking-section" aria-labelledby="booking-time-title" data-scroll-reveal>
               <div className="booking-section__heading">
-                <span aria-hidden="true">02</span>
+                <span aria-hidden="true">03</span>
                 <div>
                   <p className="eyebrow">À votre rythme</p>
                   <h2 id="booking-time-title">Choisissez une heure</h2>
                 </div>
               </div>
-              <div className="booking-availability" aria-live="polite" aria-atomic="true">
+              <div className="booking-availability" data-status={currentAvailability.status} aria-live="polite" aria-atomic="true">
                 {currentAvailability.status === "initial" && (
                   <p id="reservation-time" tabIndex={-1} aria-describedby={errors.time ? "reservation-time-error" : undefined}>Choisissez une date pour voir les créneaux disponibles.</p>
                 )}
@@ -298,9 +308,9 @@ function ReservationExperience({
               )}
               {errors.time && <p className="booking-error" id="reservation-time-error">{errors.time}</p>}
             </section>
-            <section className="booking-section" aria-labelledby="booking-contact-title">
+            <section className="booking-section" aria-labelledby="booking-contact-title" data-scroll-reveal>
               <div className="booking-section__heading">
-                <span aria-hidden="true">03</span>
+                <span aria-hidden="true">04</span>
                 <div>
                   <p className="eyebrow">Pour vous retrouver</p>
                   <h2 id="booking-contact-title">Vos coordonnées</h2>
@@ -341,7 +351,14 @@ function ReservationExperience({
                 </div>
               </div>
             </section>
-            <div className="booking-submit">
+            <div className="booking-submit" data-scroll-reveal>
+              <div className="booking-section__heading">
+                <span aria-hidden="true">05</span>
+                <div>
+                  <p className="eyebrow">Votre rendez-vous</p>
+                  <h2>Confirmer votre table</h2>
+                </div>
+              </div>
               <p>Vous pourrez régler votre menu sur place. Aucun paiement n'est demandé ici.</p>
               {formMessage && <p className="booking-error" role="alert">{formMessage}</p>}
               <button type="submit">Confirmer ma réservation <span aria-hidden="true">↗</span></button>

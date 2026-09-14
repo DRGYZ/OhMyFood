@@ -469,3 +469,647 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Reservation journey: scoped so the Confirmation surface keeps its own styling. */
+.booking-page--reservation {
+  --booking-ink: #261a1b;
+  --booking-rule: #d7c9bb;
+  --booking-wine: #3b172b;
+  --booking-ivory: #faf7f2;
+  --booking-parchment: #ede4d8;
+  padding-bottom: clamp(5rem, 8vw, 8rem);
+}
+
+.booking-page--reservation .booking-intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 31%);
+  min-height: clamp(300px, 29vw, 390px);
+  margin-top: .3rem;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: var(--booking-wine);
+  color: #fffaf6;
+}
+
+.booking-page--reservation .booking-intro__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+
+.booking-page--reservation .booking-intro .eyebrow {
+  color: #d9ad99;
+}
+
+.booking-page--reservation .booking-intro h1 {
+  max-width: 14ch;
+  margin-top: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(3.2rem, 5.4vw, 6rem);
+  line-height: .99;
+  letter-spacing: -.05em;
+}
+
+.booking-page--reservation .booking-intro h1 em {
+  display: block;
+  font-weight: 500;
+}
+
+.booking-page--reservation .booking-intro__copy > p:not(.eyebrow) {
+  max-width: 43ch;
+  margin-top: clamp(1.1rem, 2vw, 1.8rem);
+  color: #e8dadc;
+  font-size: clamp(.95rem, 1.2vw, 1.08rem);
+  line-height: 1.65;
+}
+
+.booking-page--reservation .booking-intro__copy .booking-intro__place {
+  margin-top: 1.6rem;
+  padding-top: .85rem;
+  border-top: 1px solid rgb(255 255 255 / 28%);
+  color: #e4bca9;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.booking-page--reservation .booking-intro__place span {
+  padding-inline: .3em;
+}
+
+.booking-page--reservation .booking-intro__image {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #392a2b;
+}
+
+.booking-page--reservation .booking-intro__image::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(59 23 43 / 32%), transparent 55%);
+  content: "";
+  pointer-events: none;
+}
+
+.booking-page--reservation .booking-intro__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.booking-page--reservation .booking-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 320px);
+  gap: clamp(2.5rem, 5.5vw, 6.5rem);
+  padding-top: clamp(3rem, 5vw, 5.5rem);
+}
+
+.booking-page--reservation .booking-summary {
+  top: 1.5rem;
+  padding: clamp(1.4rem, 2.5vw, 2.3rem);
+  overflow: hidden;
+  border: 0;
+  background: var(--booking-parchment);
+}
+
+.booking-page--reservation .booking-summary::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--color-accent);
+  content: "";
+}
+
+.booking-page--reservation .booking-summary__number {
+  position: absolute;
+  top: -.35em;
+  right: -.01em;
+  color: rgb(66 25 48 / 7%);
+  font-family: var(--font-editorial);
+  font-size: clamp(9rem, 16vw, 14rem);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.booking-page--reservation .booking-summary > *:not(.booking-summary__number) {
+  position: relative;
+  z-index: 1;
+}
+
+.booking-page--reservation .booking-summary .eyebrow,
+.booking-page--reservation .booking-section .eyebrow,
+.booking-page--reservation .booking-submit .eyebrow {
+  color: var(--color-accent);
+}
+
+.booking-page--reservation .booking-summary h2 {
+  margin-top: .7rem;
+  color: var(--booking-ink);
+  font-size: clamp(2.5rem, 3.4vw, 3.4rem);
+  line-height: 1;
+}
+
+.booking-page--reservation .booking-summary__restaurant {
+  margin-top: .9rem;
+  color: var(--booking-ink);
+  font-size: .9rem;
+}
+
+.booking-page--reservation .booking-summary__list {
+  gap: 0;
+  margin: 2rem 0 1rem;
+  border-top: 1px solid var(--booking-rule);
+}
+
+.booking-page--reservation .booking-summary__list li {
+  gap: .8rem;
+  padding-block: .8rem;
+  border-bottom: 1px solid var(--booking-rule);
+  color: var(--booking-ink);
+  line-height: 1.45;
+}
+
+.booking-page--reservation .booking-summary__list li span strong {
+  color: var(--color-accent);
+}
+
+.booking-page--reservation .booking-summary__total {
+  align-items: end;
+  padding-top: .9rem;
+  border: 0;
+}
+
+.booking-page--reservation .booking-summary__total strong {
+  color: var(--booking-wine);
+  font-family: var(--font-editorial);
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.booking-page--reservation .booking-summary__note {
+  margin-top: .3rem;
+}
+
+.booking-page--reservation .booking-summary > a {
+  min-height: var(--touch-target);
+  margin-top: 1.4rem;
+  padding-top: .55rem;
+  border-top: 1px solid var(--booking-rule);
+  text-decoration-thickness: 1px;
+}
+
+.booking-page--reservation .booking-form {
+  max-width: 780px;
+}
+
+.booking-page--reservation .booking-section {
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
+  border-bottom: 1px solid var(--booking-rule);
+}
+
+.booking-page--reservation .booking-section + .booking-section {
+  padding-top: clamp(3rem, 5vw, 4.5rem);
+}
+
+.booking-page--reservation .booking-section__heading {
+  display: grid;
+  grid-template-columns: clamp(3.8rem, 6vw, 5.8rem) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-bottom: clamp(1.8rem, 3.5vw, 3rem);
+}
+
+.booking-page--reservation .booking-section__heading > span {
+  color: #bb8f7e;
+  font-family: var(--font-editorial);
+  font-size: clamp(3.7rem, 6vw, 5.6rem);
+  line-height: .85;
+  letter-spacing: -.07em;
+}
+
+.booking-page--reservation .booking-section__heading h2 {
+  margin-top: .45rem;
+  color: var(--booking-ink);
+  font-size: clamp(2.4rem, 3.7vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -.035em;
+}
+
+.booking-page--reservation .booking-fields {
+  gap: 1.5rem 1.2rem;
+}
+
+.booking-page--reservation .booking-field label {
+  margin-bottom: .65rem;
+  color: var(--booking-ink);
+  font-size: .81rem;
+  font-weight: 700;
+  letter-spacing: .045em;
+}
+
+.booking-page--reservation .booking-field input,
+.booking-page--reservation .booking-field select {
+  min-height: 3.6rem;
+  padding-inline: 1rem;
+  border: 1px solid #cfc0b2;
+  border-radius: 0;
+  background: var(--booking-ivory);
+  color: var(--booking-ink);
+  transition: border-color var(--motion-ui), box-shadow var(--motion-ui), background var(--motion-ui);
+}
+
+.booking-page--reservation .booking-field input:hover,
+.booking-page--reservation .booking-field select:hover {
+  border-color: #9d877c;
+}
+
+.booking-page--reservation .booking-field input:focus-visible,
+.booking-page--reservation .booking-field select:focus-visible {
+  outline: 2px solid var(--booking-wine);
+  outline-offset: 2px;
+  border-color: var(--booking-wine);
+  background: #fffdf9;
+}
+
+.booking-page--reservation .booking-field input[aria-invalid="true"],
+.booking-page--reservation .booking-field select[aria-invalid="true"] {
+  border-color: #9e472a;
+  box-shadow: inset 3px 0 #9e472a;
+}
+
+.booking-page--reservation .booking-date-echo {
+  color: var(--color-herb);
+  font-weight: 600;
+}
+
+.booking-page--reservation .booking-hint {
+  font-size: .78rem;
+}
+
+.booking-page--reservation .booking-error {
+  max-width: 54ch;
+  color: #8a311c;
+  line-height: 1.5;
+}
+
+.booking-page--reservation .booking-availability:not([data-status="success"]) {
+  position: relative;
+  min-height: 5.5rem;
+  padding: 1.2rem 1.4rem;
+  border-left: 3px solid #ad998c;
+  background: var(--booking-parchment);
+  color: var(--booking-ink);
+  line-height: 1.55;
+}
+
+.booking-page--reservation .booking-availability[data-status="loading"] {
+  border-color: var(--booking-wine);
+}
+
+.booking-page--reservation .booking-availability[data-status="loading"]::after {
+  display: block;
+  width: min(65%, 15rem);
+  height: 3px;
+  margin-top: .85rem;
+  background: linear-gradient(90deg, #cbb7a8, #75445d, #cbb7a8);
+  background-size: 200% 100%;
+  content: "";
+}
+
+.booking-page--reservation .booking-availability[data-status="empty"] {
+  border-color: var(--color-accent);
+}
+
+.booking-page--reservation .booking-availability[data-status="error"] {
+  border-color: #8a311c;
+}
+
+.booking-page--reservation .booking-retry {
+  border-color: var(--booking-wine);
+  background: transparent;
+  transition: color var(--motion-micro), background var(--motion-micro);
+}
+
+.booking-page--reservation .booking-retry:hover {
+  background: var(--booking-wine);
+  color: white;
+}
+
+.booking-page--reservation .booking-times legend {
+  margin-bottom: 1rem;
+  color: var(--color-text-muted);
+  font-size: .83rem;
+  font-weight: 600;
+}
+
+.booking-page--reservation .booking-times__grid {
+  gap: .7rem;
+}
+
+.booking-page--reservation .booking-time {
+  min-width: 5.8rem;
+  min-height: 3.25rem;
+}
+
+.booking-page--reservation .booking-time span {
+  border-color: #c8b8ac;
+  background: var(--booking-ivory);
+  color: var(--booking-ink);
+  font-weight: 700;
+  transition: border-color var(--motion-micro), color var(--motion-micro), background var(--motion-micro);
+}
+
+.booking-page--reservation .booking-time input:hover + span {
+  border-color: var(--booking-wine);
+  color: var(--booking-wine);
+}
+
+.booking-page--reservation .booking-time input:checked + span,
+.booking-page--reservation .booking-time input:checked:hover + span {
+  border-color: var(--booking-wine);
+  background: var(--booking-wine);
+  color: white;
+}
+
+.booking-page--reservation .booking-time input:focus-visible + span {
+  outline: 2px solid var(--booking-wine);
+  outline-offset: 3px;
+}
+
+.booking-page--reservation .booking-submit {
+  padding-top: clamp(3rem, 5vw, 4.5rem);
+}
+
+.booking-page--reservation .booking-submit > p:first-of-type {
+  max-width: 48ch;
+  margin-bottom: 1.3rem;
+  color: var(--color-text-muted);
+  font-size: .9rem;
+}
+
+.booking-page--reservation .booking-submit button {
+  min-height: 3.7rem;
+  margin-top: 1.4rem;
+  padding-inline: 1.5rem;
+  border: 0;
+  background: var(--booking-wine);
+  font-size: .92rem;
+  transition: background var(--motion-micro), transform var(--motion-micro);
+}
+
+.booking-page--reservation .booking-submit button span {
+  transition: transform var(--motion-micro);
+}
+
+.booking-page--reservation .booking-submit button:hover span {
+  transform: translate(2px, -2px);
+}
+
+.booking-page--reservation .booking-submit button:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 70rem) {
+  .booking-page--reservation .booking-layout {
+    grid-template-columns: minmax(0, 1fr) 275px;
+    gap: 2.2rem;
+  }
+}
+
+@media (max-width: 60rem) {
+  .booking-page--reservation .booking-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .booking-page--reservation .booking-summary,
+  .booking-page--reservation .booking-form {
+    width: 100%;
+    max-width: none;
+  }
+
+  .booking-page--reservation .booking-summary {
+    position: static;
+  }
+
+  .booking-page--reservation .booking-summary__compact {
+    display: grid;
+    gap: .25rem;
+    margin-top: .7rem;
+    font-size: .85rem;
+  }
+
+  .booking-page--reservation .booking-summary__compact button {
+    justify-self: start;
+    min-height: var(--touch-target);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--booking-wine);
+    font-size: .84rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+
+  .booking-page--reservation .booking-summary__details {
+    display: none;
+  }
+
+  .booking-page--reservation .booking-summary__details--expanded {
+    display: block;
+  }
+
+  .booking-page--reservation .booking-summary > a {
+    margin-top: .45rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .booking-page--reservation .booking-intro {
+    grid-template-columns: minmax(0, 1fr) 28%;
+    min-height: 0;
+  }
+
+  .booking-page--reservation .booking-intro__copy {
+    padding: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  .booking-page--reservation .booking-intro h1 {
+    font-size: clamp(2.8rem, 7.2vw, 4.3rem);
+  }
+
+  .booking-page--reservation .booking-intro__copy > p:not(.eyebrow) {
+    margin-top: .9rem;
+    font-size: .88rem;
+  }
+
+  .booking-page--reservation .booking-intro__copy .booking-intro__place {
+    margin-top: 1rem;
+  }
+
+  .booking-page--reservation .booking-intro__image img {
+    object-position: center;
+  }
+
+  .booking-page--reservation .booking-layout {
+    padding-top: 1.5rem;
+  }
+
+  .booking-page--reservation .booking-summary {
+    padding: 1.25rem 1.4rem;
+  }
+
+  .booking-page--reservation .booking-summary h2 {
+    font-size: 2.25rem;
+  }
+
+  .booking-page--reservation .booking-summary__restaurant {
+    margin-top: .35rem;
+  }
+}
+
+@media (max-width: 39rem) {
+  .booking-page--reservation .booking-intro {
+    display: block;
+  }
+
+  .booking-page--reservation .booking-intro__image {
+    display: none;
+  }
+
+  .booking-page--reservation .booking-intro h1 {
+    font-size: clamp(2.8rem, 10vw, 3.5rem);
+  }
+
+  .booking-page--reservation .booking-section__heading {
+    grid-template-columns: 3.2rem minmax(0, 1fr);
+    gap: .8rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .booking-page--reservation .booking-section__heading > span {
+    font-size: 3.5rem;
+  }
+
+  .booking-page--reservation .booking-section__heading h2 {
+    font-size: clamp(2.25rem, 9vw, 3rem);
+  }
+
+  .booking-page--reservation .booking-fields--two {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-page--reservation .booking-time {
+    flex: 1 1 calc(33.333% - .7rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .booking-page--reservation .booking-intro__copy {
+    animation: booking-entrance var(--motion-reveal) var(--ease-arrive) both;
+  }
+
+  .booking-page--reservation .booking-intro__image img {
+    animation: booking-image-in var(--motion-image) var(--ease-arrive) both;
+  }
+
+  .booking-page--reservation [data-scroll-reveal] {
+    transition: opacity var(--motion-reveal) var(--ease-arrive), transform var(--motion-reveal) var(--ease-arrive);
+  }
+
+  .booking-page--reservation [data-scroll-reveal][data-reveal-state="pending"] {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .booking-page--reservation [data-scroll-reveal][data-reveal-instant] {
+    transition-duration: 0ms;
+  }
+
+  .booking-page--reservation .booking-availability[data-status="loading"]::after {
+    animation: booking-loading 750ms linear infinite;
+  }
+
+  .booking-page--reservation .booking-times__grid {
+    animation: booking-slots-in var(--motion-ui) var(--ease-arrive) both;
+  }
+}
+
+@keyframes booking-entrance {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes booking-image-in {
+  from { opacity: .55; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes booking-loading {
+  to { background-position: -200% 0; }
+}
+
+@media (max-width: 60rem) {
+  .booking-page--reservation .booking-summary {
+    position: relative;
+  }
+}
+
+@media (max-width: 39rem) {
+  .booking-page--reservation .booking-intro__copy {
+    padding: 1.25rem 1.4rem 1.4rem;
+  }
+
+  .booking-page--reservation .booking-intro h1 {
+    margin-top: .7rem;
+    font-size: clamp(2.55rem, 9.5vw, 3.25rem);
+  }
+
+  .booking-page--reservation .booking-intro__copy > p:not(.eyebrow) {
+    margin-top: .65rem;
+    font-size: .84rem;
+    line-height: 1.5;
+  }
+
+  .booking-page--reservation .booking-intro__copy .booking-intro__place {
+    margin-top: .7rem;
+    padding-top: .65rem;
+  }
+
+  .booking-page--reservation .booking-layout {
+    gap: 1.7rem;
+    padding-top: 1rem;
+  }
+
+  .booking-page--reservation .booking-summary {
+    padding: 1rem 1.3rem;
+  }
+
+  .booking-page--reservation .booking-summary h2 {
+    margin-top: .35rem;
+    font-size: 2rem;
+  }
+
+  .booking-page--reservation .booking-summary__restaurant {
+    display: none;
+  }
+
+  .booking-page--reservation .booking-summary__compact {
+    margin-top: .35rem;
+  }
+
+  .booking-page--reservation .booking-summary > a {
+    padding-top: .4rem;
+  }
+}
