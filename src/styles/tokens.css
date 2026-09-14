@@ -2,9 +2,9 @@
   color-scheme: light;
 
   /* Palette informed by the Stitch reference; these values can evolve with V2. */
-  --color-canvas: #fbf8f3;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f4efe6;
+  --color-canvas: #f4efe8;
+  --color-surface: #faf7f2;
+  --color-surface-muted: #ece3d8;
   --color-text: #1a1412;
   --color-text-muted: #6e645f;
   --color-border: #e5dfd5;

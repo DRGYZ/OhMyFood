@@ -1,7 +1,7 @@
 .restaurant-page {
   --restaurant-wine: #3b172b;
   --restaurant-ink: #211716;
-  --restaurant-cream: #f4ede3;
+  --restaurant-cream: #f0e7dc;
   --restaurant-rule: #d6c9bb;
   padding-bottom: var(--space-16);
 }
@@ -289,7 +289,7 @@
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--restaurant-wine);
-  background: #fffefa;
+  background: var(--color-surface);
 }
 
 .quantity-control button {
@@ -464,7 +464,7 @@
   padding: clamp(1.5rem, 4vw, 2.5rem);
   border: 0;
   border-top: 4px solid var(--color-brand);
-  background: #fffaf3;
+  background: var(--color-surface);
   color: var(--restaurant-ink, var(--color-text));
   box-shadow: 0 20px 70px rgb(26 20 18 / 25%);
 }
@@ -658,7 +658,7 @@
   .selection-mobile a {
     min-height: var(--touch-target);
     padding-inline: .9rem;
-    background: #fffaf3;
+    background: var(--color-surface);
     color: var(--color-brand);
   }
 
@@ -912,7 +912,7 @@
 }
 
 .selection-panel--active .selection-panel__continue {
-  background: #fffaf3;
+  background: var(--color-surface);
   color: var(--restaurant-wine);
 }
 
@@ -930,7 +930,7 @@
 .replace-dialog {
   background:
     radial-gradient(circle at 95% 0%, rgb(176 105 80 / 10%), transparent 46%),
-    #fffaf3;
+    var(--color-surface);
 }
 
 @media (prefers-reduced-motion: no-preference) {

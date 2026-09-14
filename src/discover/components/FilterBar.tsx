@@ -12,6 +12,48 @@ interface FilterBarProps {
   onFilterChange: (patch: Partial<DiscoverFilters>) => void;
 }
 
+type FilterKey = "cuisine" | "neighborhood" | "dietary";
+
+interface FilterChoicesProps {
+  name: FilterKey;
+  legend: string;
+  value: string;
+  allLabel: string;
+  options: ReadonlyArray<{ value: string; label: string }>;
+  onChange: (value: string) => void;
+}
+
+function FilterChoices({
+  name,
+  legend,
+  value,
+  allLabel,
+  options,
+  onChange,
+}: FilterChoicesProps) {
+  const choices = [{ value: "", label: allLabel }, ...options];
+
+  return (
+    <fieldset className="filter-choice">
+      <legend>{legend}</legend>
+      <div className="filter-choice__options">
+        {choices.map((option) => (
+          <label className="filter-choice__option" key={option.value}>
+            <input
+              type="radio"
+              name={"discover-" + name}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 export function FilterBar({
   filters,
   onSearchChange,
@@ -60,50 +102,30 @@ export function FilterBar({
         className={"filter-bar__fields" + (expanded ? " filter-bar__fields--open" : "")}
         id="discover-filters"
       >
-        <label className="select-field" data-selected={Boolean(filters.cuisine)}>
-          <span>Cuisine</span>
-          <select
-            value={filters.cuisine}
-            onChange={(event) => onFilterChange({ cuisine: event.target.value })}
-          >
-            <option value="">Toutes les cuisines</option>
-            {cuisineOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="select-field" data-selected={Boolean(filters.neighborhood)}>
-          <span>Quartier</span>
-          <select
-            value={filters.neighborhood}
-            onChange={(event) =>
-              onFilterChange({ neighborhood: event.target.value })
-            }
-          >
-            <option value="">Tout Paris</option>
-            {neighborhoodOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="select-field" data-selected={Boolean(filters.dietary)}>
-          <span>Préférences</span>
-          <select
-            value={filters.dietary}
-            onChange={(event) => onFilterChange({ dietary: event.target.value })}
-          >
-            <option value="">Toutes les tables</option>
-            {dietaryOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FilterChoices
+          name="cuisine"
+          legend="Cuisine"
+          value={filters.cuisine}
+          allLabel="Toutes les cuisines"
+          options={cuisineOptions}
+          onChange={(cuisine) => onFilterChange({ cuisine })}
+        />
+        <FilterChoices
+          name="neighborhood"
+          legend="Quartier"
+          value={filters.neighborhood}
+          allLabel="Tout Paris"
+          options={neighborhoodOptions}
+          onChange={(neighborhood) => onFilterChange({ neighborhood })}
+        />
+        <FilterChoices
+          name="dietary"
+          legend="Préférences"
+          value={filters.dietary}
+          allLabel="Toutes les tables"
+          options={dietaryOptions}
+          onChange={(dietary) => onFilterChange({ dietary })}
+        />
       </div>
     </form>
   );
