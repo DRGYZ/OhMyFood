@@ -1,57 +1,104 @@
-# OhMyFood V2
+# OhMyFood
 
-OhMyFood V2 is an independent React and TypeScript rebuild of an earlier OpenClassrooms restaurant project, made after the training submission. Visitors can discover four Paris restaurants, explore their menus, compose a meal before arrival, choose a time slot, and complete a simulated reservation.
+OhMyFood V2 is an independent React and TypeScript rebuild of an earlier OpenClassrooms restaurant project, developed on the `ohmyfood-v2` branch. The project transforms the original static concept into a responsive web application featuring editorial restaurant discovery, interactive menu composition, simulated time-slot availability, and session-backed booking confirmation.
 
-**Demo:** V2 is not published yet · [Preserved V1 demo](https://drgyz.github.io/OhMyFood/) · [V2 source](https://github.com/DRGYZ/OhMyFood/tree/ohmyfood-v2)
+## V2 Preview
 
-## The experience
+![Discover page](docs/screenshots/v2/discover-desktop.png)
+*Discover page featuring editorial table curation, search, and contextual filters.*
 
-Discover → search or filter → Restaurant → compose a menu → Reservation → availability → Confirmation.
+![Restaurant menu selection](docs/screenshots/v2/restaurant-selection-desktop.png)
+*Restaurant view with live dish selection, quantity controls, and persistent order summary.*
 
-Search ignores accents and case. Cuisine, neighborhood, and dietary filters live in the URL, so a filtered view can be shared or revisited. A menu belongs to one restaurant at a time and persists in `localStorage`; switching restaurants asks for confirmation before replacing it. Reservation availability is asynchronous and shows loading, empty, and error states. The form validates the date, time, and contact details, then keeps the confirmation in `sessionStorage` for the browser session.
+![Booking confirmation](docs/screenshots/v2/confirmation-desktop.png)
+*Confirmation view displaying booking reference, appointment facts, and menu receipt.*
 
-## From V1 to V2
+## What changed from V1
 
-| Original OpenClassrooms version | Independent V2 rebuild |
+| Original OpenClassrooms version (V1) | Independent rebuild (V2) |
 | --- | --- |
-| Static HTML pages with repeated restaurant markup | Data-driven React routes and shared typed restaurant/menu models |
-| Decorative CSS dish interaction | Reducer-driven menu selection with validated persistence |
-| No meaningful application state | URL filters, React state, and browser storage with distinct roles |
-| Restaurant journey ended at the menu | Reservation availability, validation, and confirmation |
-| Basic responsive styling and large assets | Mobile-first layouts, optimized imagery, and controlled loading |
-| Limited keyboard support | Skip navigation, route focus, form errors, and live announcements |
+| Static HTML pages with repetitive markup | Data-driven React architecture with shared typed models |
+| Purely decorative CSS dish interactions | Reducer-driven menu selection with persistent storage |
+| No application state or filtering | URL-synchronized filters, React Context, and browser storage |
+| Restaurant journey ended at the menu | Guided reservation flow with availability and confirmation |
+| Basic responsive layout and large assets | Mobile-first editorial layouts and optimized self-hosted assets |
+| Minimal keyboard and screen-reader support | Skip navigation, route focus management, and ARIA announcements |
+| Generic mock styling | Editorial visual direction with custom typography and curated palettes |
 
-The original submission and its Git history remain intact: `main` is the submitted V1, `archive/v1-openclassrooms` is its archival branch, and `v1.0.0-openclassrooms` marks that baseline. The rebuild lives on `ohmyfood-v2`.
+The original OpenClassrooms jury submission and its history remain untouched on `main`, `archive/v1-openclassrooms`, and tag `v1.0.0-openclassrooms`.
 
-## Technical choices
+## Product journey
 
-React and TypeScript provide typed restaurant, menu, reservation, and persistence contracts. State stays close to its owner: URL parameters hold Discover filters; Context and `useReducer` manage the active menu; Reservation uses local component state; `localStorage` keeps an unfinished menu; and `sessionStorage` keeps a completed confirmation. This scope does not need Redux or Zustand.
+The customer flow covers five connected stages:
 
-A small deterministic availability service uses native promises and cancellation rather than a backend. The interface uses native form controls, keyboard-operable selection and dialog flows, focus management, live status messages, and reduced-motion styles. Restaurant photography is compressed; the featured and hero images load eagerly, while listing images load lazily. Latin subsets of the variable fonts are self-hosted.
+1. **Discover:** Search and filter Paris tables by neighborhood, cuisine, or dietary options.
+2. **Restaurant:** Review restaurant ambiance, culinary focus, and seasonal course chapters.
+3. **Menu selection:** Select dishes with quantity controls, live subtotal updates, and multi-table replacement guards.
+4. **Reservation:** Choose party size, select from simulated real-time availability slots, and provide contact details.
+5. **Confirmation:** Review the confirmed appointment facts, generated booking reference, and menu receipt.
 
-**Stack:** React, TypeScript, React Router, Vite, Vitest, CSS, and Fontsource variable fonts.
+## Technical stack
 
-## Run locally
+- **Core:** React 19, TypeScript, Vite
+- **Routing:** React Router (hash routing for static host compatibility)
+- **Typography:** Self-hosted variable fonts (`@fontsource-variable/eb-garamond`, `@fontsource-variable/plus-jakarta-sans`)
+- **Testing:** Vitest (30 unit and integration tests)
+- **Styling:** Native modular CSS with design tokens, responsive containers, and motion queries
+
+## State & interaction architecture
+
+State is scoped to its natural lifecycle without external state management libraries:
+
+- **URL Search Parameters:** Holds Discover filters (`q`, `cuisine`, `neighborhood`, `dietary`) for bookmarkable views.
+- **Selection Context (`useReducer`):** Manages active dish quantities and totals for the selected restaurant.
+- **`localStorage` (`omf_selection_v2`):** Persists an in-progress meal selection across sessions; prompts before replacing if switching restaurants.
+- **Component State:** Drives reservation form validation and the asynchronous availability lifecycle (`initial` → `loading` → `success` / `empty` / `error`).
+- **`sessionStorage` (`omf_confirmation_v2`):** Stores the confirmed booking snapshot for the active browser session.
+
+## Accessibility
+
+- Semantic HTML5 structure across all routes (`main`, `nav`, `header`, `section`, `article`, `aside`).
+- Skip navigation link to bypass the header on desktop and mobile.
+- Route focus management shifting focus to primary content headings upon navigation.
+- Accessible form controls with explicit labels, constraints, and `aria-describedby` error associations.
+- Live region announcements (`aria-live="polite"`) for asynchronous time-slot lookups.
+- Full support for `prefers-reduced-motion` via CSS overrides and reveal hooks.
+
+## Running locally
 
 ```bash
+# Clone the repository
+git clone https://github.com/DRGYZ/OhMyFood.git
+cd OhMyFood
+
+# Switch to the V2 working branch
+git checkout ohmyfood-v2
+
+# Install dependencies and start development server
 npm install
 npm run dev
+
+# Run quality checks and tests
 npm run typecheck
 npm test
 npm run build
 npm run preview
 ```
 
-## Tests
+## Deployment status
 
-The 30 focused tests cover restaurant lookups, search and filters, menu selection, storage validation, availability, reservation validation and date boundaries, and confirmation snapshots.
+- **V1 Deployment:** The original OpenClassrooms submission remains publicly hosted on GitHub Pages at [drgyz.github.io/OhMyFood](https://drgyz.github.io/OhMyFood/).
+- **V2 Deployment:** OhMyFood V2 is **not currently publicly deployed**. It can be run and evaluated locally from the `ohmyfood-v2` branch.
 
-## Deployment
+## V1 preservation
 
-`npm run build` writes a static site to `dist/`. V2 uses hash routes and relative asset paths so it can be hosted separately from the preserved V1 GitHub Pages site. No V2 deployment has been made.
+The original OpenClassrooms jury submission is preserved in full:
+- `main`: Untouched submission branch.
+- `archive/v1-openclassrooms`: Archival branch pointing to the original baseline.
+- `v1.0.0-openclassrooms`: Git tag marking the exact evaluated submission.
 
-## Data and project notes
+Historical project context is documented in [the V1 baseline](docs/v1-baseline.md). Architectural decisions are recorded in [the V2 design foundation](docs/v2-design-foundation.md).
 
-Restaurant and menu content is illustrative and descends from the original project. Availability is simulated: no real reservation is submitted, and no payment occurs.
+## Data & project scope
 
-The historical implementation is recorded in [the V1 baseline](docs/v1-baseline.md); [the V2 design foundation](docs/v2-design-foundation.md) records the initial visual direction.
+All restaurant identities, dish descriptions, and pricing are illustrative concept data descending from the original course scenario. Time-slot availability is simulated locally with deterministic delays and edge cases; no backend service, external database, or payment processing exists.
