@@ -1,7 +1,10 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import type { MouseEvent } from "react";
 
 export function SiteHeader() {
+  const location = useLocation();
+  const isDiscover = location.pathname === "/";
+
   function skipToContent(event: MouseEvent<HTMLAnchorElement>) {
     // HashRouter owns the URL fragment, so focus the in-page target directly.
     event.preventDefault();
@@ -23,7 +26,10 @@ export function SiteHeader() {
             <span className="wordmark__caption">Tables de Paris</span>
           </Link>
           <nav aria-label="Navigation principale" className="site-nav">
-            <Link to="/#restaurants">Découvrir les tables</Link>
+            <Link to="/#restaurants" aria-current={isDiscover ? "page" : undefined}>
+              <span className="site-nav__label site-nav__label--desktop">Découvrir les tables</span>
+              <span className="site-nav__label site-nav__label--mobile">Les tables</span>
+            </Link>
           </nav>
           <span className="site-header__context">
             <span className="context-dot" aria-hidden="true" />

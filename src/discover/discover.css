@@ -1161,7 +1161,7 @@ to{
   .discover-page .intro h1 { animation-delay: 65ms; }
   .discover-page .intro__lead { animation-delay: 125ms; }
   .discover-page .filter-bar { animation-delay: 185ms; }
-  .discover-page .featured__content { animation-delay: 285ms; }
+  .discover-page .featured__content { animation-delay: 110ms; }
 
   .discover-page .featured__photo img {
     animation: discover-photo-enter 560ms var(--ease-arrive) 235ms both;
